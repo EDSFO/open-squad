@@ -1,0 +1,206 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id               String   @id @default(cuid())
+  email            String   @unique
+  passwordHash     String
+  name             String?
+  locale           String   @default("pt-BR")
+  stripeCustomerId String?  @unique
+  subscriptionId   String?
+  plan             Plan     @default(STARTER)
+  squadLimit       Int      @default(1)
+  isActive         Boolean  @default(true)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  userSquads       UserSquad[]
+  squadExecutions  SquadExecution[]
+  aiUsageLogs      AIUsageLog[]
+  rateLimitBuckets RateLimitBucket[]
+  sessions         Session[]
+  recruitingJobs   RecruitingJob[]
+  recruitingCandidates RecruitingCandidate[]
+  recruitingInterviews RecruitingInterview[]
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  userId    String
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+enum Plan {
+  STARTER   // 1 squad
+  GROWTH    // 3 squads
+  SCALE     // 5 squads
+  ENTERPRISE // ilimitado
+}
+
+model Squad {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  isPublished Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  localizations SquadLocalization[]
+  userSquads    UserSquad[]
+  executions    SquadExecution[]
+}
+
+model SquadLocalization {
+  id          String  @id @default(cuid())
+  squadId     String
+  locale      String  // pt-BR | en-US
+  name        String
+  description String  @db.Text
+  price       Int     // centavos
+
+  squad Squad @relation(fields: [squadId], references: [id], onDelete: Cascade)
+
+  @@unique([squadId, locale])
+}
+
+model UserSquad {
+  id              String   @id @default(cuid())
+  userId          String
+  squadId         String
+  stripePaymentId String?
+  purchasedAt     DateTime @default(now())
+  isActive        Boolean  @default(true)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  squad Squad @relation(fields: [squadId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, squadId])
+}
+
+model AIUsageLog {
+  id          String   @id @default(cuid())
+  userId      String
+  squadExecId String?
+  tokensUsed  Int
+  model       String
+  costCents   Int
+  createdAt   DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model SquadExecution {
+  id          String   @id
+  userId      String
+  squadId      String
+  status      String
+  currentStep Int      @default(0)
+  totalSteps  Int      @default(0)
+  inputs      Json
+  output      Json     @default("{}")
+  checkpoint  Json?
+  startedAt   DateTime?
+  completedAt DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  squad Squad @relation(fields: [squadId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+  @@index([squadId, createdAt])
+  @@index([status, createdAt])
+}
+
+model RateLimitBucket {
+  id         String   @id @default(cuid())
+  userId     String
+  window     String   // "minute" | "hour" | "month"
+  tokensUsed Int      @default(0)
+  limit      Int
+  updatedAt  DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, window])
+}
+
+model RecruitingJob {
+  id                String   @id @default(cuid())
+  userId            String
+  title             String
+  companyName       String?
+  seniority         String
+  location          String?
+  employmentType    String?
+  salaryRange       String?
+  requiredSkills    String   @db.Text
+  niceToHaveSkills  String?  @db.Text
+  description       String   @db.Text
+  notes             String?  @db.Text
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  user        User                  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  candidates  RecruitingCandidate[]
+  interviews  RecruitingInterview[]
+
+  @@index([userId, createdAt])
+}
+
+model RecruitingCandidate {
+  id                    String   @id @default(cuid())
+  userId                String
+  jobId                 String
+  name                  String
+  email                 String?
+  source                String?
+  resumeText            String   @db.Text
+  notes                 String?  @db.Text
+  screeningScore        Int?
+  screeningStatus       String?
+  screeningRecommendation String?
+  screeningAnalysis     Json?
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  user        User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+  job         RecruitingJob        @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  interviews  RecruitingInterview[]
+
+  @@index([userId, createdAt])
+  @@index([jobId, createdAt])
+}
+
+model RecruitingInterview {
+  id                 String   @id @default(cuid())
+  userId             String
+  jobId              String
+  candidateId        String
+  transcriptText     String   @db.Text
+  analysis           Json?
+  finalScore         Int?
+  finalRecommendation String?
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  user      User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  job       RecruitingJob       @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  candidate RecruitingCandidate @relation(fields: [candidateId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+  @@index([candidateId, createdAt])
+}

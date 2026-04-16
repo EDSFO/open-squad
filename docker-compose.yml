@@ -1,0 +1,154 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: opensquad-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: opensquad
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-opensquad_secret}
+      POSTGRES_DB: opensquad
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U opensquad"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    networks:
+      - opensquad-network
+
+  redis:
+    image: redis:7-alpine
+    container_name: opensquad-redis
+    restart: unless-stopped
+    command: redis-server --save 60 1 --loglevel warning --appendonly yes
+    volumes:
+      - redis_data:/data
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    networks:
+      - opensquad-network
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: opensquad-backend
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: postgresql://opensquad:${POSTGRES_PASSWORD:-opensquad_secret}@postgres:5432/opensquad
+      REDIS_URL: redis://redis:6379
+      PORT: 3001
+      NODE_ENV: development
+      JWT_SECRET: ${JWT_SECRET:-dev_jwt_secret_change_in_production_at_least_32_chars}
+      JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET:-dev_jwt_refresh_secret_change_in_production}
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      OPENROUTER_API_KEY: ${OPENROUTER_API_KEY:-}
+      GOOGLE_AI_API_KEY: ${GOOGLE_AI_API_KEY:-}
+      AI_DEFAULT_MODEL: ${AI_DEFAULT_MODEL:-deepseek/deepseek-v3.2}
+      OPENROUTER_IMAGE_MODEL: ${OPENROUTER_IMAGE_MODEL:-bytedance-seed/seedream-4.5}
+      OPENROUTER_INFOGRAPHIC_MODEL: ${OPENROUTER_INFOGRAPHIC_MODEL:-bytedance-seed/seedream-4.5}
+      OPENROUTER_REAL_INFOGRAPHIC: ${OPENROUTER_REAL_INFOGRAPHIC:-false}
+      AI_RATE_LIMIT_MINUTE: ${AI_RATE_LIMIT_MINUTE:-10000}
+      AI_RATE_LIMIT_HOUR: ${AI_RATE_LIMIT_HOUR:-200000}
+      AI_RATE_LIMIT_MONTH: ${AI_RATE_LIMIT_MONTH:-5000000}
+    ports:
+      - "3001:3001"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3001/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "5"
+    networks:
+      - opensquad-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: opensquad-frontend
+    restart: unless-stopped
+    environment:
+      NEXT_PUBLIC_APP_URL: ${NEXT_PUBLIC_APP_URL:-http://localhost:3000}
+      NEXT_PUBLIC_BACKEND_URL: ${NEXT_PUBLIC_BACKEND_URL:-http://localhost:3001}
+      NODE_ENV: development
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3000"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "5"
+    networks:
+      - opensquad-network
+
+  nginx:
+    profiles:
+      - proxy
+    image: nginx:1.27-alpine
+    container_name: opensquad-nginx
+    restart: unless-stopped
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/ssl:/etc/nginx/ssl:ro
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - frontend
+      - backend
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "5"
+    networks:
+      - opensquad-network
+
+networks:
+  opensquad-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  redis_data:

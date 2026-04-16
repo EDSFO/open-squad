@@ -1,0 +1,366 @@
+{
+  "common": {
+    "appName": "Opensquad",
+    "welcome": "Bem-vindo ao Opensquad"
+  },
+  "nav": {
+    "home": "Início",
+    "features": "Funcionalidades",
+    "pricing": "Preços",
+    "login": "Entrar",
+    "register": "Cadastrar",
+    "marketplace": "Marketplace",
+    "meuSquads": "Meus Squads",
+    "recruiting": "Recrutamento",
+    "library": "Biblioteca",
+    "settings": "Configurações",
+    "logout": "Sair",
+    "version": "Versão"
+  },
+  "hero": {
+    "title": "Squads de Agentes de IA para criar conteúdo em escala",
+    "subtitle": "Monte equipes de agentes especializados que trabalham juntos para gerar conteúdo de alta qualidade para Instagram, LinkedIn, blogs e muito mais.",
+    "cta": "Começar Agora",
+    "link": "Cadastre-se gratuitamente",
+    "features": {
+      "multiagent": {
+        "label": "Multi-Agent",
+        "sublabel": "Collaboration"
+      },
+      "checkpoint": {
+        "label": "Checkpoint",
+        "sublabel": "Approvals"
+      },
+      "languages": {
+        "label": "PT-BR + EN",
+        "sublabel": "Languages"
+      }
+    }
+  },
+  "features": {
+    "title": "Funcionalidades Poderoses",
+    "subtitle": "Tudo que você precisa para criar conteúdo com IA",
+    "multiAgent": {
+      "title": "Squads Multi-Agente",
+      "description": "Equipes de agentes especializados que colaboram para criar conteúdo superior"
+    },
+    "checkpoint": {
+      "title": "Aprovações com Checkpoint",
+      "description": "Pare a execução a qualquer momento para revisar e aprovar o conteúdo gerado"
+    },
+    "languages": {
+      "title": "PT-BR + EN-US",
+      "description": "Suporte nativo para português brasileiro e inglês americano"
+    },
+    "payments": {
+      "title": "Pagamentos via Stripe",
+      "description": "Assinaturas simples e seguras com Stripe"
+    }
+  },
+  "howItWorks": {
+    "title": "Como Funciona",
+    "subtitle": "Comece a criar conteúdo em 3 passos",
+    "step1": "Cadastre-se",
+    "step1Desc": "Crie sua conta gratuitamente e escolha seu plano",
+    "step2": "Escolha seu Squad",
+    "step2Desc": "Selecione entre nossos squads especializados ou crie o seu",
+    "step3": "Execute",
+    "step3Desc": "Rode o squad e receba conteúdo de alta qualidade"
+  },
+  "squadShowcase": {
+    "title": "Squads Disponíveis",
+    "subtitle": "Escolha entre nossos squads especializados",
+    "viewDetails": "Ver Detalhes",
+    "squads": {
+      "instagram-carousel": {
+        "name": "Carrossel Instagram",
+        "description": "Crie carrosséis envolventes para Instagram com múltiplos slides otimizados para engajamento."
+      },
+      "linkedin-posts": {
+        "name": "Posts LinkedIn",
+        "description": "Gere posts profissionais para LinkedIn que geram conversas e conexões."
+      },
+      "tutorial-generator": {
+        "name": "Gerador de Tutoriais",
+        "description": "Crie tutoriais passo a passo detalhados para qualquer processo ou produto."
+      }
+    }
+  },
+  "pricing": {
+    "title": "Planos e Preços",
+    "subtitle": "A partir de R$39/mês",
+    "description": "Escolha o plano ideal para sua necessidade. Todos os planos incluem acesso a todos os squads.",
+    "perMonth": "/mês",
+    "popular": "Mais Popular",
+    "plan": {
+      "name": "Starter",
+      "features": [
+        "Acesso a todos os squads",
+        "Até 50 execuções por mês",
+        "Checkpoint approvals",
+        "Suporte PT-BR + EN-US",
+        "Pagamentos via Stripe"
+      ],
+      "cta": "Começar Agora"
+    }
+  },
+  "faq": {
+    "title": "Perguntas Frequentes",
+    "subtitle": "Tire suas dúvidas",
+    "q1": "O que é um Squad de agentes?",
+    "a1": "Um Squad é uma equipe de agentes de IA que trabalham juntos para completar uma tarefa. Cada agente tem um papel específico, como redator, editor ou designer, e eles colaboram para produzir conteúdo de alta qualidade.",
+    "q2": "Preciso saber programar?",
+    "a2": "Não! Nossa plataforma é 100% visual. Você escolhe o squad, configura as opções e executa. Todo o trabalho complexo é feito pelos agentes automaticamente.",
+    "q3": "Posso cancelar a qualquer momento?",
+    "a3": "Sim! Você pode cancelar sua assinatura quando quiser, sem multas ou taxas adicionais.",
+    "q4": "Como funciona o checkpoint?",
+    "a4": "O checkpoint permite que você pause a execução do squad a qualquer momento para revisar o conteúdo gerado. Você pode aprovar, pedir ajustes ou cancelar a execução."
+  },
+  "dashboard": {
+    "welcome": "Bem-vindo ao seu dashboard",
+    "subtitle": "Gerencie seus squads e conteúdos em um só lugar"
+  },
+  "marketplace": {
+    "title": "Marketplace de Squads",
+    "subtitle": "Escolha entre nossos squads especializados",
+    "buy": "Comprar",
+    "filter": {
+      "all": "Todos",
+      "content": "Conteúdo",
+      "marketing": "Marketing",
+      "social": "Redes Sociais"
+    },
+    "empty": "Nenhum squad disponível"
+  },
+  "meuSquads": {
+    "title": "Meus Squads",
+    "subtitle": "Gerencie seus squads adquiridos",
+    "execute": "Executar",
+    "activating": "Ativando...",
+    "deactivating": "Desativando...",
+    "active": "Ativo",
+    "inactive": "Inativo",
+    "empty": "Você ainda não possui nenhum squad",
+    "emptySubtitle": "Visite o marketplace para adquirir seu primeiro squad"
+  },
+  "settings": {
+    "title": "Configurações",
+    "subtitle": "Gerencie suas informações pessoais e preferências",
+    "profile": {
+      "title": "Perfil",
+      "name": "Nome",
+      "email": "Email",
+      "saved": "Perfil atualizado com sucesso!"
+    },
+    "locale": {
+      "label": "Idioma",
+      "ptBR": "Português (Brasil)",
+      "enUS": "English (US)"
+    },
+    "password": {
+      "title": "Alterar Senha",
+      "current": "Senha Atual",
+      "new": "Nova Senha",
+      "confirm": "Confirmar Nova Senha",
+      "change": "Alterar Senha",
+      "saved": "Senha alterada com sucesso!"
+    },
+    "save": "Salvar"
+  },
+  "library": {
+    "title": "Biblioteca de Saídas",
+    "subtitle": "Reveja, copie e reaproveite as execuções salvas da sua conta.",
+    "searchPlaceholder": "Buscar por squad, briefing ou conteúdo",
+    "copy": "Copiar",
+    "copied": "Copiado",
+    "openSquad": "Abrir squad",
+    "content": "Conteúdo salvo",
+    "assets": "Assets visuais",
+    "brief": "Briefing original",
+    "briefEmpty": "Nenhum briefing salvo para esta execução.",
+    "checklist": "Checklist",
+    "stats": {
+      "total": "Total",
+      "completed": "Concluídas",
+      "saved": "Salvas"
+    },
+    "filters": {
+      "all": "Todas",
+      "completed": "Concluídas",
+      "active": "Ativas",
+      "failed": "Falhas"
+    },
+    "status": {
+      "pending": "Pendente",
+      "active": "Ativa",
+      "waiting_checkpoint": "Em aprovação",
+      "completed": "Concluída",
+      "failed": "Falhou"
+    },
+    "empty": {
+      "title": "Nenhuma saída encontrada",
+      "default": "As execuções concluídas e em andamento vão aparecer aqui para reaproveitamento.",
+      "filtered": "Nenhuma execução corresponde aos filtros atuais."
+    }
+  },
+  "billing": {
+    "title": "Assinatura e Pagamentos",
+    "description": {
+      "manage": "Gerencie sua assinatura, visualize faturas e atualize informações de pagamento.",
+      "noSubscription": "Visite o marketplace para adquirir squads."
+    },
+    "manageSubscription": "Gerenciar Assinatura",
+    "openPortal": "Abrir Portal de Pagamentos",
+    "portalError": "Não foi possível abrir o portal de pagamentos. Verifique se você já fez uma compra."
+  },
+  "footer": {
+    "description": "Squads de agentes de IA para criar conteúdo em escala",
+    "rights": "Todos os direitos reservados",
+    "product": "Produto",
+    "company": "Empresa",
+    "legal": "Legal",
+    "features": "Funcionalidades",
+    "pricing": "Preços",
+    "about": "Sobre",
+    "contact": "Contato",
+    "privacy": "Privacidade",
+    "terms": "Termos"
+  },
+  "auth": {
+    "login": {
+      "title": "Entrar",
+      "email": "Email",
+      "password": "Senha",
+      "submit": "Entrar",
+      "noAccount": "Não tem uma conta?",
+      "link": "Cadastre-se"
+    },
+    "register": {
+      "title": "Criar Conta",
+      "name": "Nome",
+      "email": "Email",
+      "password": "Senha",
+      "confirmPassword": "Confirmar Senha",
+      "submit": "Criar Conta",
+      "hasAccount": "Já tem uma conta?",
+      "link": "Entrar"
+    }
+  },
+  "executor": {
+    "title": "Executar Squad",
+    "subtitle": "Configure e execute seu squad",
+    "selectSquad": "Selecionar Squad",
+    "inputs": {
+      "title": "Variáveis de Entrada",
+      "description": "Configure as entradas para execução do seu squad"
+    },
+    "start": "Iniciar Execução",
+    "starting": "Iniciando...",
+    "status": {
+      "pending": "Pendente",
+      "active": "Ativo",
+      "waiting_checkpoint": "Aguardando Aprovação",
+      "completed": "Concluído",
+      "failed": "Falhou"
+    },
+    "step": "Passo",
+    "of": "de",
+    "checkpoint": {
+      "title": "Aprovação de Checkpoint Necessária",
+      "description": "O squad foi pausado em um checkpoint e precisa da sua aprovação para continuar",
+      "approve": "Aprovar",
+      "reject": "Rejeitar"
+    },
+    "output": "Saída",
+    "noOutput": "Nenhuma saída ainda",
+    "assets": "Assets visuais",
+    "assetPrompt": "Prompt visual",
+    "slides": "Slides",
+    "visualMode": {
+      "label": "Modo visual",
+      "description": "Escolha o equilíbrio entre custo e qualidade das mídias geradas.",
+      "badge": {
+        "economic": "Econômico",
+        "balanced": "Balanceado",
+        "premium": "Premium"
+      },
+      "options": {
+        "economic": {
+          "title": "Econômico",
+          "description": "Usa capas e infográficos em SVG local. Menor custo por execução."
+        },
+        "balanced": {
+          "title": "Balanceado",
+          "description": "Gera capa real por IA e usa infográfico local. Melhor custo-benefício."
+        },
+        "premium": {
+          "title": "Premium",
+          "description": "Gera capa e infográfico reais por IA. Melhor acabamento visual."
+        }
+      }
+    },
+    "copyOutput": "Copiar saída",
+    "copyLinkedIn": "Copiar post do LinkedIn",
+    "copySuccess": "Conteúdo copiado para a área de transferência.",
+    "copyError": "Não foi possível copiar o conteúdo."
+  },
+  "recruiting": {
+    "title": "Recrutamento e Seleção",
+    "subtitle": "Cadastre vagas, analise currículos e gere pareceres de entrevista com IA.",
+    "createJob": "Nova vaga",
+    "jobs": "Vagas",
+    "loading": "Carregando vagas...",
+    "emptyJobs": "Nenhuma vaga cadastrada ainda.",
+    "emptySelection": "Selecione uma vaga para ver os candidatos e análises.",
+    "addCandidate": "Novo candidato",
+    "candidates": "Candidatos",
+    "emptyCandidates": "Nenhum candidato cadastrado para esta vaga.",
+    "creating": "Criando...",
+    "saving": "Salvando...",
+    "analyzing": "Analisando...",
+    "companyFallback": "Empresa não informada",
+    "candidatesCount": "candidatos",
+    "actions": {
+      "createJob": "Criar vaga",
+      "addCandidate": "Adicionar candidato",
+      "analyzeResume": "Analisar currículo",
+      "analyzeInterview": "Analisar entrevista"
+    },
+    "fields": {
+      "title": "Título da vaga",
+      "companyName": "Empresa",
+      "seniority": "Senioridade",
+      "location": "Localização",
+      "employmentType": "Tipo de contratação",
+      "salaryRange": "Faixa salarial",
+      "requiredSkills": "Competências obrigatórias",
+      "niceToHaveSkills": "Competências desejáveis",
+      "description": "Descrição da vaga",
+      "notes": "Observações",
+      "candidateName": "Nome do candidato",
+      "candidateEmail": "Email do candidato",
+      "source": "Origem",
+      "resumeText": "Currículo do candidato",
+      "interviewTranscript": "Transcrição da entrevista"
+    },
+    "screening": {
+      "score": "Score de aderência",
+      "status": "Status",
+      "recommendation": "Recomendação",
+      "summary": "Resumo",
+      "strengths": "Pontos fortes",
+      "gaps": "Gaps",
+      "questions": "Perguntas para entrevista",
+      "rationale": "Justificativa"
+    },
+    "interview": {
+      "score": "Score final",
+      "recommendation": "Parecer final",
+      "summary": "Resumo",
+      "evidence": "Evidências",
+      "concerns": "Pontos de atenção",
+      "nextSteps": "Próximos passos",
+      "rationale": "Justificativa final"
+    }
+  }
+}

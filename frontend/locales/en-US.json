@@ -1,0 +1,366 @@
+{
+  "common": {
+    "appName": "Opensquad",
+    "welcome": "Welcome to Opensquad"
+  },
+  "nav": {
+    "home": "Home",
+    "features": "Features",
+    "pricing": "Pricing",
+    "login": "Login",
+    "register": "Register",
+    "marketplace": "Marketplace",
+    "meuSquads": "My Squads",
+    "recruiting": "Recruiting",
+    "library": "Library",
+    "settings": "Settings",
+    "logout": "Logout",
+    "version": "Version"
+  },
+  "hero": {
+    "title": "AI Agent Squads to create content at scale",
+    "subtitle": "Build teams of specialized agents that work together to generate high-quality content for Instagram, LinkedIn, blogs and more.",
+    "cta": "Get Started",
+    "link": "Sign up for free",
+    "features": {
+      "multiagent": {
+        "label": "Multi-Agent",
+        "sublabel": "Collaboration"
+      },
+      "checkpoint": {
+        "label": "Checkpoint",
+        "sublabel": "Approvals"
+      },
+      "languages": {
+        "label": "PT-BR + EN",
+        "sublabel": "Languages"
+      }
+    }
+  },
+  "features": {
+    "title": "Powerful Features",
+    "subtitle": "Everything you need to create content with AI",
+    "multiAgent": {
+      "title": "Multi-Agent Squads",
+      "description": "Teams of specialized agents that collaborate to create superior content"
+    },
+    "checkpoint": {
+      "title": "Checkpoint Approvals",
+      "description": "Pause execution at any time to review and approve generated content"
+    },
+    "languages": {
+      "title": "PT-BR + EN-US",
+      "description": "Native support for Brazilian Portuguese and American English"
+    },
+    "payments": {
+      "title": "Stripe Payments",
+      "description": "Simple and secure subscriptions with Stripe"
+    }
+  },
+  "howItWorks": {
+    "title": "How It Works",
+    "subtitle": "Start creating content in 3 steps",
+    "step1": "Sign Up",
+    "step1Desc": "Create your free account and choose your plan",
+    "step2": "Choose Your Squad",
+    "step2Desc": "Select from our specialized squads or create your own",
+    "step3": "Execute",
+    "step3Desc": "Run the squad and receive high-quality content"
+  },
+  "squadShowcase": {
+    "title": "Available Squads",
+    "subtitle": "Choose from our specialized squads",
+    "viewDetails": "View Details",
+    "squads": {
+      "instagram-carousel": {
+        "name": "Instagram Carousel",
+        "description": "Create engaging Instagram carousels with multiple slides optimized for engagement."
+      },
+      "linkedin-posts": {
+        "name": "LinkedIn Posts",
+        "description": "Generate professional LinkedIn posts that spark conversations and connections."
+      },
+      "tutorial-generator": {
+        "name": "Tutorial Generator",
+        "description": "Create detailed step-by-step tutorials for any process or product."
+      }
+    }
+  },
+  "pricing": {
+    "title": "Plans and Pricing",
+    "subtitle": "Starting at R$39/month",
+    "description": "Choose the plan that's right for you. All plans include access to all squads.",
+    "perMonth": "/month",
+    "popular": "Most Popular",
+    "plan": {
+      "name": "Starter",
+      "features": [
+        "Access to all squads",
+        "Up to 50 executions per month",
+        "Checkpoint approvals",
+        "PT-BR + EN-US support",
+        "Stripe payments"
+      ],
+      "cta": "Get Started"
+    }
+  },
+  "faq": {
+    "title": "Frequently Asked Questions",
+    "subtitle": "Get your questions answered",
+    "q1": "What is an Agent Squad?",
+    "a1": "A Squad is a team of AI agents that work together to complete a task. Each agent has a specific role, such as writer, editor, or designer, and they collaborate to produce high-quality content.",
+    "q2": "Do I need to know how to code?",
+    "a2": "No! Our platform is 100% visual. You choose the squad, configure the options, and execute. All complex work is done by the agents automatically.",
+    "q3": "Can I cancel at any time?",
+    "a3": "Yes! You can cancel your subscription at any time, without penalties or additional fees.",
+    "q4": "How does checkpoint work?",
+    "a4": "Checkpoint allows you to pause squad execution at any time to review the generated content. You can approve it, request adjustments, or cancel the execution."
+  },
+  "dashboard": {
+    "welcome": "Welcome to your dashboard",
+    "subtitle": "Manage your squads and content from one place"
+  },
+  "marketplace": {
+    "title": "Squad Marketplace",
+    "subtitle": "Choose from our specialized squads",
+    "buy": "Buy",
+    "filter": {
+      "all": "All",
+      "content": "Content",
+      "marketing": "Marketing",
+      "social": "Social Media"
+    },
+    "empty": "No squads available"
+  },
+  "meuSquads": {
+    "title": "My Squads",
+    "subtitle": "Manage your purchased squads",
+    "execute": "Run",
+    "activating": "Activating...",
+    "deactivating": "Deactivating...",
+    "active": "Active",
+    "inactive": "Inactive",
+    "empty": "You don't have any squads yet",
+    "emptySubtitle": "Visit the marketplace to purchase your first squad"
+  },
+  "settings": {
+    "title": "Settings",
+    "subtitle": "Manage your personal information and preferences",
+    "profile": {
+      "title": "Profile",
+      "name": "Name",
+      "email": "Email",
+      "saved": "Profile updated successfully!"
+    },
+    "locale": {
+      "label": "Language",
+      "ptBR": "Português (Brasil)",
+      "enUS": "English (US)"
+    },
+    "password": {
+      "title": "Change Password",
+      "current": "Current Password",
+      "new": "New Password",
+      "confirm": "Confirm New Password",
+      "change": "Change Password",
+      "saved": "Password changed successfully!"
+    },
+    "save": "Save"
+  },
+  "library": {
+    "title": "Output Library",
+    "subtitle": "Review, copy, and reuse the saved executions from your account.",
+    "searchPlaceholder": "Search by squad, brief, or content",
+    "copy": "Copy",
+    "copied": "Copied",
+    "openSquad": "Open squad",
+    "content": "Saved content",
+    "assets": "Visual assets",
+    "brief": "Original brief",
+    "briefEmpty": "No brief was saved for this execution.",
+    "checklist": "Checklist",
+    "stats": {
+      "total": "Total",
+      "completed": "Completed",
+      "saved": "Saved"
+    },
+    "filters": {
+      "all": "All",
+      "completed": "Completed",
+      "active": "Active",
+      "failed": "Failed"
+    },
+    "status": {
+      "pending": "Pending",
+      "active": "Active",
+      "waiting_checkpoint": "Awaiting approval",
+      "completed": "Completed",
+      "failed": "Failed"
+    },
+    "empty": {
+      "title": "No outputs found",
+      "default": "Completed and in-progress executions will appear here for reuse.",
+      "filtered": "No executions match the current filters."
+    }
+  },
+  "billing": {
+    "title": "Subscription & Payments",
+    "description": {
+      "manage": "Manage your subscription, view invoices, and update payment information.",
+      "noSubscription": "Visit the marketplace to purchase squads."
+    },
+    "manageSubscription": "Manage Subscription",
+    "openPortal": "Open Payment Portal",
+    "portalError": "Unable to open payment portal. Please make sure you have made a purchase first."
+  },
+  "footer": {
+    "description": "AI agent squads to create content at scale",
+    "rights": "All rights reserved",
+    "product": "Product",
+    "company": "Company",
+    "legal": "Legal",
+    "features": "Features",
+    "pricing": "Pricing",
+    "about": "About",
+    "contact": "Contact",
+    "privacy": "Privacy",
+    "terms": "Terms"
+  },
+  "auth": {
+    "login": {
+      "title": "Sign In",
+      "email": "Email",
+      "password": "Password",
+      "submit": "Sign In",
+      "noAccount": "Don't have an account?",
+      "link": "Sign up"
+    },
+    "register": {
+      "title": "Create Account",
+      "name": "Name",
+      "email": "Email",
+      "password": "Password",
+      "confirmPassword": "Confirm Password",
+      "submit": "Create Account",
+      "hasAccount": "Already have an account?",
+      "link": "Sign in"
+    }
+  },
+  "executor": {
+    "title": "Execute Squad",
+    "subtitle": "Configure and run your squad",
+    "selectSquad": "Select Squad",
+    "inputs": {
+      "title": "Input Variables",
+      "description": "Configure the inputs for your squad execution"
+    },
+    "start": "Start Execution",
+    "starting": "Starting...",
+    "status": {
+      "pending": "Pending",
+      "active": "Active",
+      "waiting_checkpoint": "Waiting for Approval",
+      "completed": "Completed",
+      "failed": "Failed"
+    },
+    "step": "Step",
+    "of": "of",
+    "checkpoint": {
+      "title": "Checkpoint Approval Required",
+      "description": "The squad has paused at a checkpoint and needs your approval to continue",
+      "approve": "Approve",
+      "reject": "Reject"
+    },
+    "output": "Output",
+    "noOutput": "No output yet",
+    "assets": "Visual assets",
+    "assetPrompt": "Visual prompt",
+    "slides": "Slides",
+    "visualMode": {
+      "label": "Visual mode",
+      "description": "Choose the balance between cost and quality for generated media.",
+      "badge": {
+        "economic": "Economic",
+        "balanced": "Balanced",
+        "premium": "Premium"
+      },
+      "options": {
+        "economic": {
+          "title": "Economic",
+          "description": "Uses local SVG covers and infographics. Lowest cost per execution."
+        },
+        "balanced": {
+          "title": "Balanced",
+          "description": "Generates a real AI cover and uses a local infographic. Best cost-benefit."
+        },
+        "premium": {
+          "title": "Premium",
+          "description": "Generates both cover and infographic with AI. Best visual finish."
+        }
+      }
+    },
+    "copyOutput": "Copy output",
+    "copyLinkedIn": "Copy LinkedIn post",
+    "copySuccess": "Content copied to clipboard.",
+    "copyError": "Unable to copy the content."
+  },
+  "recruiting": {
+    "title": "Recruiting & Selection",
+    "subtitle": "Create job openings, analyze resumes, and generate interview assessments with AI.",
+    "createJob": "New job opening",
+    "jobs": "Jobs",
+    "loading": "Loading jobs...",
+    "emptyJobs": "No jobs created yet.",
+    "emptySelection": "Select a job to see candidates and analyses.",
+    "addCandidate": "New candidate",
+    "candidates": "Candidates",
+    "emptyCandidates": "No candidates registered for this job yet.",
+    "creating": "Creating...",
+    "saving": "Saving...",
+    "analyzing": "Analyzing...",
+    "companyFallback": "Company not informed",
+    "candidatesCount": "candidates",
+    "actions": {
+      "createJob": "Create job",
+      "addCandidate": "Add candidate",
+      "analyzeResume": "Analyze resume",
+      "analyzeInterview": "Analyze interview"
+    },
+    "fields": {
+      "title": "Job title",
+      "companyName": "Company",
+      "seniority": "Seniority",
+      "location": "Location",
+      "employmentType": "Employment type",
+      "salaryRange": "Salary range",
+      "requiredSkills": "Required skills",
+      "niceToHaveSkills": "Nice-to-have skills",
+      "description": "Job description",
+      "notes": "Notes",
+      "candidateName": "Candidate name",
+      "candidateEmail": "Candidate email",
+      "source": "Source",
+      "resumeText": "Candidate resume",
+      "interviewTranscript": "Interview transcript"
+    },
+    "screening": {
+      "score": "Fit score",
+      "status": "Status",
+      "recommendation": "Recommendation",
+      "summary": "Summary",
+      "strengths": "Strengths",
+      "gaps": "Gaps",
+      "questions": "Interview questions",
+      "rationale": "Rationale"
+    },
+    "interview": {
+      "score": "Final score",
+      "recommendation": "Final recommendation",
+      "summary": "Summary",
+      "evidence": "Evidence",
+      "concerns": "Concerns",
+      "nextSteps": "Next steps",
+      "rationale": "Final rationale"
+    }
+  }
+}

@@ -1,0 +1,89 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: opensquad-postgres-dev
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: opensquad
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-opensquad_secret}
+      POSTGRES_DB: opensquad
+    volumes:
+      - postgres_data_dev:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U opensquad"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - opensquad-dev
+
+  redis:
+    image: redis:7-alpine
+    container_name: opensquad-redis-dev
+    restart: unless-stopped
+    command: redis-server --save 60 1 --loglevel warning --appendonly yes
+    volumes:
+      - redis_data_dev:/data
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - opensquad-dev
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    command: sh -c "npx prisma migrate deploy && npm run start"
+    container_name: opensquad-backend-dev
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: postgresql://opensquad:${POSTGRES_PASSWORD:-opensquad_secret}@postgres:5432/opensquad
+      REDIS_URL: redis://redis:6379
+      PORT: 3001
+      NODE_ENV: development
+      JWT_SECRET: dev_jwt_secret_change_in_production_at_least_32_chars
+      JWT_REFRESH_SECRET: dev_jwt_refresh_secret_change_in_production
+    ports:
+      - "3001:3001"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - opensquad-dev
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    command: npm run dev
+    container_name: opensquad-frontend-dev
+    restart: unless-stopped
+    environment:
+      NEXT_PUBLIC_APP_URL: http://localhost:3000
+      NEXT_PUBLIC_BACKEND_URL: http://localhost:3001
+      NODE_ENV: development
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    networks:
+      - opensquad-dev
+
+networks:
+  opensquad-dev:
+    driver: bridge
+
+volumes:
+  postgres_data_dev:
+  redis_data_dev:
