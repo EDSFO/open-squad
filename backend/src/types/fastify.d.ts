@@ -14,6 +14,9 @@ declare module 'fastify' {
     }
     rawBody?: Buffer | string
   }
+  interface FastifyContextConfig {
+    rawBody?: boolean
+  }
 }
 
 declare module '@fastify/jwt' {

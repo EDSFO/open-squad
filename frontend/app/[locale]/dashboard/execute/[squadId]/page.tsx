@@ -5,6 +5,7 @@ import { useRouter, useParams } from 'next/navigation'
 import { useTranslations } from 'next-intl'
 import { ArrowLeft, Play } from 'lucide-react'
 import { ExecutionView } from '@/components/dashboard/ExecutionView'
+import { KnowledgeManager } from '@/components/dashboard/KnowledgeManager'
 import RecruitingPage from '@/app/[locale]/dashboard/recruiting/page'
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3001'
@@ -251,6 +252,8 @@ export default function ExecuteSquadPage() {
             ) : (
               <p className="text-sm text-slate-500">No inputs required for this squad.</p>
             )}
+
+            <KnowledgeManager squadId={squadId} />
 
             <button
               onClick={handleStartExecution}

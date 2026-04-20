@@ -3,12 +3,13 @@
 import { useTranslations } from 'next-intl'
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
-import { Store, Users, Settings, Library } from 'lucide-react'
+import { Store, Users, Settings, Library, BriefcaseBusiness } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 const navItems = [
   { href: '/dashboard/marketplace', labelKey: 'marketplace', icon: Store },
   { href: '/dashboard/meus-squads', labelKey: 'meuSquads', icon: Users },
+  { href: '/dashboard/admin/squads', labelKey: 'authorStudio', icon: BriefcaseBusiness },
   { href: '/dashboard/library', labelKey: 'library', icon: Library },
   { href: '/dashboard/settings', labelKey: 'settings', icon: Settings },
 ]

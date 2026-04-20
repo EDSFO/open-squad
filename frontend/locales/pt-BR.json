@@ -11,6 +11,7 @@
     "register": "Cadastrar",
     "marketplace": "Marketplace",
     "meuSquads": "Meus Squads",
+    "authorStudio": "Studio do Autor",
     "recruiting": "Recrutamento",
     "library": "Biblioteca",
     "settings": "Configurações",
@@ -142,6 +143,45 @@
     "inactive": "Inativo",
     "empty": "Você ainda não possui nenhum squad",
     "emptySubtitle": "Visite o marketplace para adquirir seu primeiro squad"
+  },
+  "authorStudio": {
+    "title": "Studio do Autor",
+    "subtitle": "Crie, publique e mantenha seus squads e o RAG global sem depender de ajustes manuais no banco.",
+    "newSquad": "Novo squad",
+    "mySquads": "Seus squads",
+    "empty": "VocÃª ainda nÃ£o criou nenhum squad.",
+    "published": "Publicado",
+    "draft": "Rascunho",
+    "edit": "Editar",
+    "publish": "Publicar",
+    "unpublish": "Despublicar",
+    "globalKnowledgeCount": "{count, plural, one {# contexto global} other {# contextos globais}}",
+    "missingLocalization": "Sem descriÃ§Ã£o para este idioma.",
+    "claimableTitle": "Squads sem autor",
+    "claimableSubtitle": "Assuma a autoria de squads legados ainda sem `creatorUserId` para poder publicar e manter o RAG global.",
+    "claimableEmpty": "NÃ£o hÃ¡ squads pendentes de autoria.",
+    "claim": "Assumir autoria",
+    "claiming": "Assumindo...",
+    "createTitle": "Criar squad",
+    "editTitle": "Editar squad",
+    "formDescription": "Defina slug, textos e preÃ§os em cada idioma. O criador do squad passa a gerenciar o conhecimento global.",
+    "saving": "Salvando...",
+    "saveChanges": "Salvar alteraÃ§Ãµes",
+    "create": "Criar squad",
+    "fields": {
+      "slug": "Slug do squad",
+      "name": "Nome ({locale})",
+      "description": "DescriÃ§Ã£o ({locale})",
+      "price": "PreÃ§o em centavos",
+      "publishNow": "Publicar agora",
+      "publishHelp": "Se ativado, o squad aparece no marketplace assim que for salvo."
+    },
+    "errors": {
+      "load": "NÃ£o foi possÃ­vel carregar o studio do autor.",
+      "save": "NÃ£o foi possÃ­vel salvar o squad.",
+      "publish": "NÃ£o foi possÃ­vel atualizar o status de publicaÃ§Ã£o.",
+      "claim": "NÃ£o foi possÃ­vel assumir a autoria do squad."
+    }
   },
   "settings": {
     "title": "Configurações",
@@ -300,6 +340,42 @@
       }
     },
     "copyOutput": "Copiar saída",
+    "knowledge": {
+      "title": "Base de conhecimento do agente",
+      "description": "Adicione contexto fixo para o agente recuperar durante a execução. Use global para todo comprador do squad e privado para informações do seu negócio. Você pode cadastrar texto manualmente ou enviar arquivos comuns de RAG.",
+      "loading": "Carregando base de conhecimento...",
+      "add": "Adicionar contexto",
+      "saving": "Salvando...",
+      "validation": "Preencha título e conteúdo para salvar o contexto.",
+      "globalTitle": "Contexto global do squad",
+      "privateTitle": "Contexto privado da sua conta",
+      "emptyGlobal": "Nenhum contexto global cadastrado ainda.",
+      "emptyPrivate": "Nenhum contexto privado cadastrado ainda.",
+      "privateUnavailable": "Você precisa possuir este squad para manter uma base privada.",
+      "globalCount": "{count, plural, one {# item global} other {# itens globais}}",
+      "privateCount": "{count, plural, one {# item privado} other {# itens privados}}",
+      "scopeGlobalDescription": "Criado pelo autor do squad e reutilizado por todos os compradores.",
+      "scopePrivateDescription": "Visível apenas para a sua conta e ideal para dados do seu negócio.",
+      "scope": {
+        "global": "Global",
+        "private": "Privado"
+      },
+      "fields": {
+        "title": "Título do contexto",
+        "content": "Cole aqui regras, FAQs, processos, diferenciais, catálogo, ICP, tom de voz ou qualquer informação fixa relevante.",
+        "source": "Fonte ou referência (opcional)",
+        "tags": "Tags separadas por vírgula"
+      },
+      "upload": {
+        "title": "Importar arquivo para o RAG",
+        "description": "Envie PDF, Word, TXT, Markdown, CSV, JSON, HTML, XML ou RTF. O sistema extrai o texto e quebra documentos grandes em blocos reutilizáveis.",
+        "action": "Enviar arquivo",
+        "uploading": "Enviando...",
+        "supported": "Formatos aceitos: PDF, DOC, DOCX, TXT, MD, CSV, TSV, JSON, HTML, XML e RTF.",
+        "selected": "Arquivo selecionado: {name}",
+        "validation": "Selecione um arquivo para importar."
+      }
+    },
     "copyLinkedIn": "Copiar post do LinkedIn",
     "copySuccess": "Conteúdo copiado para a área de transferência.",
     "copyError": "Não foi possível copiar o conteúdo."

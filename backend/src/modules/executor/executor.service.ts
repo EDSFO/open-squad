@@ -4,6 +4,7 @@ import { redis } from '../../lib/redis.js'
 import { prisma } from '../../lib/prisma.js'
 import { sendExecutionCompleteEmailNonBlocking } from '../notifications/email.service.js'
 import { callAI } from '../ai-gateway/gateway.service.js'
+import { buildKnowledgeContextForExecution } from '../knowledge/knowledge.service.js'
 
 interface ExecutionJobData {
   userId: string
@@ -433,12 +434,18 @@ export function createExecutorWorker(): Worker {
       })
 
       const brief = buildExecutionBrief(squad?.slug || squadId, inputs)
+      const knowledgeContext = await buildKnowledgeContextForExecution({
+        userId,
+        squadId,
+        inputs,
+      })
       const visualMode = normalizeVisualMode(inputs.visualMode)
       const generatedArtifact = await generateArtifact({
         userId,
         squadId: squad?.slug || squadId,
         squadName,
         brief,
+        knowledgePromptBlock: knowledgeContext.promptBlock,
         jobId,
         visualMode,
         onProgress: async (progress) => {
@@ -450,6 +457,7 @@ export function createExecutorWorker(): Worker {
               squadName,
               receivedInputs: inputs,
               visualMode,
+              knowledge: knowledgeContext.metadata,
               phase: progress.phase,
               ...(progress.draft ? { draft: progress.draft } : {}),
             },
@@ -465,6 +473,7 @@ export function createExecutorWorker(): Worker {
           squadName,
           receivedInputs: inputs,
           visualMode,
+          knowledge: knowledgeContext.metadata,
           phase: 'Aguardando aprovacao do checkpoint',
           draft: generatedArtifact.summary,
         },
@@ -508,6 +517,7 @@ export function createExecutorWorker(): Worker {
           squadName,
           receivedInputs: inputs,
           visualMode,
+          knowledge: knowledgeContext.metadata,
           phase: 'Finalizando entrega',
           artifact: generatedArtifact,
         },
@@ -526,6 +536,7 @@ export function createExecutorWorker(): Worker {
           squadName,
           receivedInputs: inputs,
           visualMode,
+          knowledge: knowledgeContext.metadata,
           phase: 'Entrega concluida',
           artifact: generatedArtifact,
         },
@@ -606,11 +617,12 @@ async function generateArtifact(options: {
   squadId: string
   squadName: string
   brief: string
+  knowledgePromptBlock: string
   jobId: string
   visualMode: VisualMode
   onProgress?: ArtifactProgressReporter
 }): Promise<GeneratedArtifact> {
-  const { userId, squadId, squadName, brief, jobId, visualMode, onProgress } = options
+  const { userId, squadId, squadName, brief, knowledgePromptBlock, jobId, visualMode, onProgress } = options
 
   try {
     await onProgress?.({
@@ -620,7 +632,7 @@ async function generateArtifact(options: {
 
     const result = await callAI({
       userId,
-      prompt: buildArtifactPrompt(squadId, squadName, brief),
+      prompt: buildArtifactPrompt(squadId, squadName, brief, knowledgePromptBlock),
       model: process.env.AI_DEFAULT_MODEL || 'deepseek/deepseek-v3.2',
       squadExecId: jobId,
       locale: 'pt-BR',
@@ -642,7 +654,12 @@ async function generateArtifact(options: {
   }
 }
 
-function buildArtifactPrompt(squadSlug: string, squadName: string, brief: string) {
+function buildArtifactPrompt(
+  squadSlug: string,
+  squadName: string,
+  brief: string,
+  knowledgePromptBlock: string
+) {
   const artifactType =
     squadSlug === 'tutorial-generator'
       ? 'tutorial'
@@ -673,7 +690,8 @@ function buildArtifactPrompt(squadSlug: string, squadName: string, brief: string
     '- Se fizer sentido, inclua um infographic com 3 a 5 slides curtos.',
     '- checklist deve ter de 3 a 5 itens curtos.',
     `Briefing do usuario: ${brief}`,
-  ].join('\n')
+    knowledgePromptBlock,
+  ].filter(Boolean).join('\n')
 }
 
 async function parseArtifactResponse(

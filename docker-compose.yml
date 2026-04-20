@@ -52,6 +52,7 @@ services:
       dockerfile: Dockerfile
     container_name: opensquad-backend
     restart: unless-stopped
+    command: sh -c "if [ ! -x node_modules/.bin/tsx ] || [ ! -d node_modules/@fastify/multipart ]; then npm ci; fi && npx prisma generate && npm run dev"
     environment:
       DATABASE_URL: postgresql://opensquad:${POSTGRES_PASSWORD:-opensquad_secret}@postgres:5432/opensquad
       REDIS_URL: redis://redis:6379
@@ -70,8 +71,12 @@ services:
       AI_RATE_LIMIT_MINUTE: ${AI_RATE_LIMIT_MINUTE:-10000}
       AI_RATE_LIMIT_HOUR: ${AI_RATE_LIMIT_HOUR:-200000}
       AI_RATE_LIMIT_MONTH: ${AI_RATE_LIMIT_MONTH:-5000000}
+      CHOKIDAR_USEPOLLING: "true"
     ports:
       - "3001:3001"
+    volumes:
+      - ./backend:/app
+      - backend_node_modules:/app/node_modules
     depends_on:
       postgres:
         condition: service_healthy
@@ -96,16 +101,23 @@ services:
       dockerfile: Dockerfile
     container_name: opensquad-frontend
     restart: unless-stopped
+    command: sh -c "if [ ! -x node_modules/.bin/next ]; then npm ci; fi && npm run dev -- --hostname 0.0.0.0"
     environment:
       NEXT_PUBLIC_APP_URL: ${NEXT_PUBLIC_APP_URL:-http://localhost:3000}
       NEXT_PUBLIC_BACKEND_URL: ${NEXT_PUBLIC_BACKEND_URL:-http://localhost:3001}
       NODE_ENV: development
+      CHOKIDAR_USEPOLLING: "true"
+      WATCHPACK_POLLING: "true"
     ports:
       - "3000:3000"
+    volumes:
+      - ./frontend:/app
+      - frontend_node_modules:/app/node_modules
+      - frontend_next:/app/.next
     depends_on:
       - backend
     healthcheck:
-      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3000"]
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://127.0.0.1:3000"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -152,3 +164,6 @@ networks:
 volumes:
   postgres_data:
   redis_data:
+  backend_node_modules:
+  frontend_node_modules:
+  frontend_next:

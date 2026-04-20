@@ -99,10 +99,13 @@ async function main() {
   for (const squadData of squads) {
     const squad = await prisma.squad.upsert({
       where: { slug: squadData.slug },
-      update: {},
+      update: {
+        creatorUserId: admin.id,
+      },
       create: {
         slug: squadData.slug,
         isPublished: true,
+        creatorUserId: admin.id,
         localizations: {
           create: squadData.localizations,
         },

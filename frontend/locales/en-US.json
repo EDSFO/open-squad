@@ -11,6 +11,7 @@
     "register": "Register",
     "marketplace": "Marketplace",
     "meuSquads": "My Squads",
+    "authorStudio": "Author Studio",
     "recruiting": "Recruiting",
     "library": "Library",
     "settings": "Settings",
@@ -142,6 +143,45 @@
     "inactive": "Inactive",
     "empty": "You don't have any squads yet",
     "emptySubtitle": "Visit the marketplace to purchase your first squad"
+  },
+  "authorStudio": {
+    "title": "Author Studio",
+    "subtitle": "Create, publish, and maintain your squads and their global RAG without manual database intervention.",
+    "newSquad": "New squad",
+    "mySquads": "Your squads",
+    "empty": "You haven't created any squads yet.",
+    "published": "Published",
+    "draft": "Draft",
+    "edit": "Edit",
+    "publish": "Publish",
+    "unpublish": "Unpublish",
+    "globalKnowledgeCount": "{count, plural, one {# global context} other {# global contexts}}",
+    "missingLocalization": "No description for this locale.",
+    "claimableTitle": "Unowned squads",
+    "claimableSubtitle": "Claim legacy squads that still have no `creatorUserId` so you can publish them and manage their global RAG.",
+    "claimableEmpty": "There are no squads waiting for ownership.",
+    "claim": "Claim ownership",
+    "claiming": "Claiming...",
+    "createTitle": "Create squad",
+    "editTitle": "Edit squad",
+    "formDescription": "Define slug, copy, and pricing per locale. The squad creator becomes responsible for global knowledge management.",
+    "saving": "Saving...",
+    "saveChanges": "Save changes",
+    "create": "Create squad",
+    "fields": {
+      "slug": "Squad slug",
+      "name": "Name ({locale})",
+      "description": "Description ({locale})",
+      "price": "Price in cents",
+      "publishNow": "Publish now",
+      "publishHelp": "If enabled, the squad becomes visible in the marketplace as soon as it is saved."
+    },
+    "errors": {
+      "load": "Unable to load the author studio.",
+      "save": "Unable to save the squad.",
+      "publish": "Unable to update the publishing status.",
+      "claim": "Unable to claim squad ownership."
+    }
   },
   "settings": {
     "title": "Settings",
@@ -300,6 +340,42 @@
       }
     },
     "copyOutput": "Copy output",
+    "knowledge": {
+      "title": "Agent knowledge base",
+      "description": "Add fixed context for the agent to retrieve during execution. Use global for every squad buyer and private for your own business information. You can add text manually or upload common RAG files.",
+      "loading": "Loading knowledge base...",
+      "add": "Add context",
+      "saving": "Saving...",
+      "validation": "Fill in both title and content before saving context.",
+      "globalTitle": "Global squad context",
+      "privateTitle": "Private account context",
+      "emptyGlobal": "No global context has been added yet.",
+      "emptyPrivate": "No private context has been added yet.",
+      "privateUnavailable": "You need to own this squad to maintain a private knowledge base.",
+      "globalCount": "{count, plural, one {# global item} other {# global items}}",
+      "privateCount": "{count, plural, one {# private item} other {# private items}}",
+      "scopeGlobalDescription": "Created by the squad author and reused by every buyer.",
+      "scopePrivateDescription": "Visible only to your account and ideal for your business data.",
+      "scope": {
+        "global": "Global",
+        "private": "Private"
+      },
+      "fields": {
+        "title": "Context title",
+        "content": "Paste rules, FAQs, processes, differentiators, catalog, ICP, tone of voice, or any other fixed information here.",
+        "source": "Source or reference (optional)",
+        "tags": "Comma-separated tags"
+      },
+      "upload": {
+        "title": "Import file into RAG",
+        "description": "Upload PDF, Word, TXT, Markdown, CSV, JSON, HTML, XML, or RTF. The system extracts text and splits large documents into reusable chunks.",
+        "action": "Upload file",
+        "uploading": "Uploading...",
+        "supported": "Accepted formats: PDF, DOC, DOCX, TXT, MD, CSV, TSV, JSON, HTML, XML, and RTF.",
+        "selected": "Selected file: {name}",
+        "validation": "Select a file to import."
+      }
+    },
     "copyLinkedIn": "Copy LinkedIn post",
     "copySuccess": "Content copied to clipboard.",
     "copyError": "Unable to copy the content."

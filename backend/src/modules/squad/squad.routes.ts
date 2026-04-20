@@ -1,9 +1,15 @@
 import { FastifyInstance } from 'fastify'
 import {
+  claimSquadOwnershipHandler,
+  createAuthorSquadHandler,
+  getClaimableSquadsHandler,
+  getMyAuthorSquadsHandler,
   getSquadsHandler,
   getSquadBySlugHandler,
   getMySquadsHandler,
   purchaseSquadHandler,
+  setSquadPublishStateHandler,
+  updateAuthorSquadHandler,
 } from './squad.controller'
 
 export async function squadRoutes(fastify: FastifyInstance): Promise<void> {
@@ -60,4 +66,28 @@ export async function squadRoutes(fastify: FastifyInstance): Promise<void> {
       },
     },
   }, purchaseSquadHandler)
+
+  fastify.get('/squads/admin/mine', {
+    onRequest: [fastify.authenticate],
+  }, getMyAuthorSquadsHandler)
+
+  fastify.get('/squads/admin/claimable', {
+    onRequest: [fastify.authenticate],
+  }, getClaimableSquadsHandler)
+
+  fastify.post('/squads/admin', {
+    onRequest: [fastify.authenticate],
+  }, createAuthorSquadHandler)
+
+  fastify.put('/squads/admin/:id', {
+    onRequest: [fastify.authenticate],
+  }, updateAuthorSquadHandler)
+
+  fastify.patch('/squads/admin/:id/publish', {
+    onRequest: [fastify.authenticate],
+  }, setSquadPublishStateHandler)
+
+  fastify.post('/squads/admin/:id/claim', {
+    onRequest: [fastify.authenticate],
+  }, claimSquadOwnershipHandler)
 }

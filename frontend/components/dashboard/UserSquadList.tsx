@@ -2,7 +2,7 @@
 
 import { useTranslations } from 'next-intl'
 import { Button } from '@/components/ui/button'
-import { Loader2, Play, Pause, Zap } from 'lucide-react'
+import { Loader2, Play, Pause, Database, Zap } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 interface UserSquad {
@@ -21,8 +21,10 @@ interface UserSquadListProps {
   squads: UserSquad[]
   isLoading?: boolean
   onExecute?: (squadId: string) => void
+  onManageRag?: (squadId: string) => void
   onToggleActive?: (squadId: string, isActive: boolean) => void
   executingId?: string | null
+  managingRagId?: string | null
   togglingId?: string | null
 }
 
@@ -30,8 +32,10 @@ export function UserSquadList({
   squads,
   isLoading = false,
   onExecute,
+  onManageRag,
   onToggleActive,
   executingId,
+  managingRagId,
   togglingId,
 }: UserSquadListProps) {
   const t = useTranslations('meuSquads')
@@ -59,7 +63,8 @@ export function UserSquadList({
   return (
     <div className="space-y-4">
       {squads.map((squad) => {
-        const isExecuting = executingId === squad.id
+        const isExecuting = executingId === squad.slug
+        const isManagingRag = managingRagId === squad.slug
         const isToggling = togglingId === squad.id
 
         return (
@@ -92,6 +97,22 @@ export function UserSquadList({
 
               {/* Actions */}
               <div className="flex flex-col gap-2">
+                <Button
+                  onClick={() => onManageRag?.(squad.slug)}
+                  disabled={isManagingRag}
+                  variant="outline"
+                  className="min-w-[120px]"
+                >
+                  {isManagingRag ? (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                  ) : (
+                    <>
+                      <Database className="mr-2 h-4 w-4" />
+                      {'Gerenciar RAG'}
+                    </>
+                  )}
+                </Button>
+
                 {/* Execute button */}
                 <Button
                   onClick={() => onExecute?.(squad.slug)}

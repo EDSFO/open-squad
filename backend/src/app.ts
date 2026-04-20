@@ -1,5 +1,6 @@
 import Fastify from 'fastify'
 import cors from '@fastify/cors'
+import multipart from '@fastify/multipart'
 import authPlugin from './modules/auth/index'
 import { userRoutes } from './modules/user/user.routes'
 import { squadRoutes } from './modules/squad/squad.routes'
@@ -7,6 +8,7 @@ import { billingRoutes } from './modules/billing/billing.routes'
 import { aiGatewayRoutes } from './modules/ai-gateway/ai-gateway.routes'
 import { executorRoutes } from './modules/executor/executor.routes'
 import { emailRoutes } from './modules/notifications/email.routes'
+import { knowledgeRoutes } from './modules/knowledge/knowledge.routes'
 import { recruitingRoutes } from './modules/recruiting/recruiting.routes'
 import { createExecutorWorker } from './modules/executor/executor.service'
 
@@ -41,6 +43,13 @@ async function start() {
       credentials: true,
     })
 
+    await fastify.register(multipart, {
+      limits: {
+        files: 1,
+        fileSize: 12 * 1024 * 1024,
+      },
+    })
+
     // Register auth plugin (includes JWT setup and routes)
     await fastify.register(authPlugin)
 
@@ -61,6 +70,9 @@ async function start() {
 
     // Register recruiting routes
     await fastify.register(recruitingRoutes, { prefix: '/recruiting' })
+
+    // Register knowledge routes
+    await fastify.register(knowledgeRoutes)
 
     // Register email notification routes
     await fastify.register(emailRoutes)

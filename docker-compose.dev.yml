@@ -42,7 +42,7 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    command: sh -c "npx prisma migrate deploy && npm run start"
+    command: sh -c "if [ ! -x node_modules/.bin/tsx ] || [ ! -d node_modules/@fastify/multipart ]; then npm ci; fi && npx prisma generate && npm run dev"
     container_name: opensquad-backend-dev
     restart: unless-stopped
     environment:
@@ -52,8 +52,12 @@ services:
       NODE_ENV: development
       JWT_SECRET: dev_jwt_secret_change_in_production_at_least_32_chars
       JWT_REFRESH_SECRET: dev_jwt_refresh_secret_change_in_production
+      CHOKIDAR_USEPOLLING: "true"
     ports:
       - "3001:3001"
+    volumes:
+      - ./backend:/app
+      - backend_node_modules:/app/node_modules
     depends_on:
       postgres:
         condition: service_healthy
@@ -66,17 +70,28 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
-    command: npm run dev
+    command: sh -c "if [ ! -x node_modules/.bin/next ]; then npm ci; fi && npm run dev -- --hostname 0.0.0.0"
     container_name: opensquad-frontend-dev
     restart: unless-stopped
     environment:
       NEXT_PUBLIC_APP_URL: http://localhost:3000
       NEXT_PUBLIC_BACKEND_URL: http://localhost:3001
       NODE_ENV: development
+      CHOKIDAR_USEPOLLING: "true"
+      WATCHPACK_POLLING: "true"
     ports:
       - "3000:3000"
+    volumes:
+      - ./frontend:/app
+      - frontend_node_modules:/app/node_modules
+      - frontend_next:/app/.next
     depends_on:
       - backend
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://127.0.0.1:3000"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
     networks:
       - opensquad-dev
 
@@ -87,3 +102,6 @@ networks:
 volumes:
   postgres_data_dev:
   redis_data_dev:
+  backend_node_modules:
+  frontend_node_modules:
+  frontend_next:

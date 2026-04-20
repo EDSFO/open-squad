@@ -40,6 +40,7 @@ export default function MeusSquadsPage() {
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [executingId, setExecutingId] = useState<string | null>(null)
+  const [managingRagId, setManagingRagId] = useState<string | null>(null)
   const [togglingId, setTogglingId] = useState<string | null>(null)
 
   useEffect(() => {
@@ -91,6 +92,11 @@ export default function MeusSquadsPage() {
     router.push(`/${locale}/dashboard/execute/${squadSlug}`)
   }
 
+  const handleManageRag = async (squadSlug: string) => {
+    setManagingRagId(squadSlug)
+    router.push(`/${locale}/dashboard/rag/${squadSlug}`)
+  }
+
   const handleToggleActive = async (squadId: string, newIsActive: boolean) => {
     setTogglingId(squadId)
     setSquads((prev) =>
@@ -128,8 +134,10 @@ export default function MeusSquadsPage() {
         <UserSquadList
           squads={squads}
           onExecute={handleExecute}
+          onManageRag={handleManageRag}
           onToggleActive={handleToggleActive}
           executingId={executingId}
+          managingRagId={managingRagId}
           togglingId={togglingId}
         />
       )}

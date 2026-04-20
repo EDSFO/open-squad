@@ -32,6 +32,7 @@ model User {
   recruitingJobs   RecruitingJob[]
   recruitingCandidates RecruitingCandidate[]
   recruitingInterviews RecruitingInterview[]
+  createdSquads    Squad[]  @relation("SquadCreator")
 }
 
 model Session {
@@ -55,12 +56,15 @@ model Squad {
   id          String   @id @default(cuid())
   slug        String   @unique
   isPublished Boolean  @default(false)
+  creatorUserId String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
+  creator       User?                   @relation("SquadCreator", fields: [creatorUserId], references: [id], onDelete: SetNull)
   localizations SquadLocalization[]
   userSquads    UserSquad[]
   executions    SquadExecution[]
+  knowledgeEntries SquadKnowledgeEntry[]
 }
 
 model SquadLocalization {
@@ -86,8 +90,33 @@ model UserSquad {
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
   squad Squad @relation(fields: [squadId], references: [id], onDelete: Cascade)
+  knowledgeEntries SquadKnowledgeEntry[]
 
   @@unique([userId, squadId])
+}
+
+enum SquadKnowledgeScope {
+  GLOBAL
+  PRIVATE
+}
+
+model SquadKnowledgeEntry {
+  id          String              @id @default(cuid())
+  squadId      String
+  userSquadId  String?
+  scope       SquadKnowledgeScope
+  title       String
+  content     String              @db.Text
+  source      String?
+  tags        String[]
+  createdAt   DateTime            @default(now())
+  updatedAt   DateTime            @updatedAt
+
+  squad      Squad      @relation(fields: [squadId], references: [id], onDelete: Cascade)
+  userSquad  UserSquad? @relation(fields: [userSquadId], references: [id], onDelete: Cascade)
+
+  @@index([squadId, scope, createdAt])
+  @@index([userSquadId, createdAt])
 }
 
 model AIUsageLog {
