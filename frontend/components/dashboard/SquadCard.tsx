@@ -1,8 +1,8 @@
 'use client'
 
 import { useTranslations } from 'next-intl'
-import { Button } from '@/components/ui/button'
 import { Loader2 } from 'lucide-react'
+import { Button } from '@/components/ui/button'
 
 interface SquadCardProps {
   id: string
@@ -29,38 +29,27 @@ export function SquadCard({
     ? `R$${price.toFixed(2).replace('.', ',')}`
     : `$${price.toFixed(2)}`
 
-  const handleBuy = () => {
-    if (onBuy) {
-      onBuy(id)
-    }
-  }
-
   return (
-    <div className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm transition-shadow hover:shadow-md">
-      <div className="space-y-4">
-        {/* Squad name */}
-        <h3 className="text-lg font-semibold text-slate-900">{name}</h3>
-
-        {/* Description */}
-        <p className="text-sm text-slate-600 line-clamp-3">{description}</p>
-
-        {/* Price */}
-        <div className="flex items-center justify-between">
-          <span className="text-xl font-bold text-slate-900">{formattedPrice}</span>
-          <span className="text-xs text-slate-500 uppercase">{currency}</span>
+    <div className="dashboard-card transition-transform duration-300 hover:-translate-y-1">
+      <div className="space-y-5">
+        <div className="flex items-start justify-between gap-4">
+          <h3 className="text-lg font-semibold text-white">{name}</h3>
+          <span className="dashboard-chip uppercase">{currency}</span>
         </div>
 
-        {/* Buy button */}
-        <Button
-          onClick={handleBuy}
-          disabled={isLoading}
-          className="w-full bg-blue-600 hover:bg-blue-700"
-        >
-          {isLoading ? (
-            <Loader2 className="h-4 w-4 animate-spin" />
-          ) : (
-            t('buy')
-          )}
+        <p className="line-clamp-3 text-sm leading-6 text-zinc-400">{description}</p>
+
+        <div className="h-px w-full bg-gradient-to-r from-white/20 to-transparent" />
+
+        <div className="flex items-end justify-between gap-4">
+          <div>
+            <p className="text-3xl font-semibold text-white">{formattedPrice}</p>
+            <p className="mt-1 text-xs uppercase tracking-[0.24em] text-zinc-500">license</p>
+          </div>
+        </div>
+
+        <Button onClick={() => onBuy?.(id)} disabled={isLoading} className="w-full">
+          {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : t('buy')}
         </Button>
       </div>
     </div>

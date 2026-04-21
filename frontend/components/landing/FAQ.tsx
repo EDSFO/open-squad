@@ -13,21 +13,12 @@ interface FAQItemProps {
 
 function FAQItem({ question, answer, isOpen, onClick }: FAQItemProps) {
   return (
-    <div className="border-b border-slate-200">
-      <button
-        className="w-full py-4 flex items-center justify-between text-left"
-        onClick={onClick}
-      >
-        <span className="font-medium text-slate-900">{question}</span>
-        <ChevronDown
-          className={`w-5 h-5 text-slate-500 transition-transform ${isOpen ? 'rotate-180' : ''}`}
-        />
+    <div className="rounded-[22px] border border-white/10 bg-white/[0.03] px-5">
+      <button className="flex w-full items-center justify-between py-5 text-left" onClick={onClick}>
+        <span className="pr-4 font-medium text-white">{question}</span>
+        <ChevronDown className={`h-5 w-5 text-zinc-500 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
       </button>
-      {isOpen && (
-        <div className="pb-4 text-slate-600">
-          {answer}
-        </div>
-      )}
+      {isOpen && <div className="pb-5 leading-7 text-zinc-400">{answer}</div>}
     </div>
   )
 }
@@ -44,19 +35,16 @@ export default function FAQ() {
   ]
 
   return (
-    <section className="py-20 bg-slate-50">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
-            {t('title')}
-          </h2>
-          <p className="text-lg text-slate-600">
-            {t('subtitle')}
-          </p>
+    <section className="py-20 md:py-28">
+      <div className="section-shell">
+        <div className="mb-12">
+          <span className="eyebrow">FAQ</span>
+          <h2 className="section-title mt-5">{t('title')}</h2>
+          <p className="section-copy mt-4">{t('subtitle')}</p>
         </div>
 
-        <div className="max-w-2xl mx-auto bg-white rounded-xl shadow-sm overflow-hidden">
-          <div className="p-6">
+        <div className="panel mx-auto max-w-3xl p-6 md:p-8">
+          <div className="space-y-4">
             {faqs.map((faq, index) => (
               <FAQItem
                 key={index}

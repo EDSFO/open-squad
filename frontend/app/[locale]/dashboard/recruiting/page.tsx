@@ -88,14 +88,10 @@ export default function RecruitingPage() {
     try {
       const token = localStorage.getItem('token')
       const response = await fetch(`${BACKEND_URL}/recruiting/jobs`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        headers: { Authorization: `Bearer ${token}` },
       })
 
-      if (!response.ok) {
-        throw new Error('Failed to fetch recruiting jobs')
-      }
+      if (!response.ok) throw new Error('Failed to fetch recruiting jobs')
 
       const data = await response.json()
       setJobs(data.jobs || [])
@@ -121,9 +117,7 @@ export default function RecruitingPage() {
         body: JSON.stringify(jobForm),
       })
 
-      if (!response.ok) {
-        throw new Error('Failed to create job')
-      }
+      if (!response.ok) throw new Error('Failed to create job')
 
       const data = await response.json()
       setJobForm(emptyJobForm)
@@ -152,9 +146,7 @@ export default function RecruitingPage() {
         body: JSON.stringify(candidateForm),
       })
 
-      if (!response.ok) {
-        throw new Error('Failed to create candidate')
-      }
+      if (!response.ok) throw new Error('Failed to create candidate')
 
       setCandidateForm(emptyCandidateForm)
       await fetchJobs()
@@ -172,15 +164,10 @@ export default function RecruitingPage() {
       const token = localStorage.getItem('token')
       const response = await fetch(`${BACKEND_URL}/recruiting/candidates/${candidateId}/analyze`, {
         method: 'POST',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        headers: { Authorization: `Bearer ${token}` },
       })
 
-      if (!response.ok) {
-        throw new Error('Failed to analyze candidate')
-      }
-
+      if (!response.ok) throw new Error('Failed to analyze candidate')
       await fetchJobs()
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to analyze candidate')
@@ -206,9 +193,7 @@ export default function RecruitingPage() {
         body: JSON.stringify({ transcriptText }),
       })
 
-      if (!response.ok) {
-        throw new Error('Failed to analyze interview')
-      }
+      if (!response.ok) throw new Error('Failed to analyze interview')
 
       setInterviewTexts((prev) => ({ ...prev, [candidateId]: '' }))
       await fetchJobs()
@@ -222,20 +207,20 @@ export default function RecruitingPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-slate-900">{t('title')}</h1>
-        <p className="mt-1 text-sm text-slate-600">{t('subtitle')}</p>
+        <h1 className="dashboard-title">{t('title')}</h1>
+        <p className="dashboard-subtitle">{t('subtitle')}</p>
       </div>
 
       {error && (
-        <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-600">
+        <div className="rounded-xl border border-red-500/20 bg-red-500/10 p-4 text-sm text-red-300">
           {error}
         </div>
       )}
 
       <div className="grid gap-6 xl:grid-cols-[360px,1fr]">
         <div className="space-y-6">
-          <section className="rounded-xl border border-slate-200 bg-white p-5">
-            <h2 className="text-lg font-semibold text-slate-900">{t('createJob')}</h2>
+          <section className="dashboard-card">
+            <h2 className="text-lg font-semibold text-white">{t('createJob')}</h2>
             <div className="mt-4 space-y-3">
               <Input label={t('fields.title')} value={jobForm.title} onChange={(value) => setJobForm((prev) => ({ ...prev, title: value }))} />
               <Input label={t('fields.companyName')} value={jobForm.companyName} onChange={(value) => setJobForm((prev) => ({ ...prev, companyName: value }))} />
@@ -251,33 +236,35 @@ export default function RecruitingPage() {
                 type="button"
                 onClick={handleCreateJob}
                 disabled={savingJob}
-                className="w-full rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-50"
+                className="w-full rounded-full border border-[#ef233c] bg-[#ef233c] px-4 py-3 text-sm font-medium text-white hover:bg-[#d90429] disabled:opacity-50"
               >
                 {savingJob ? t('creating') : t('actions.createJob')}
               </button>
             </div>
           </section>
 
-          <section className="rounded-xl border border-slate-200 bg-white p-5">
-            <h2 className="text-lg font-semibold text-slate-900">{t('jobs')}</h2>
+          <section className="dashboard-card">
+            <h2 className="text-lg font-semibold text-white">{t('jobs')}</h2>
             <div className="mt-4 space-y-3">
               {loading ? (
-                <p className="text-sm text-slate-500">{t('loading')}</p>
+                <p className="text-sm text-zinc-500">{t('loading')}</p>
               ) : jobs.length === 0 ? (
-                <p className="text-sm text-slate-500">{t('emptyJobs')}</p>
+                <p className="text-sm text-zinc-500">{t('emptyJobs')}</p>
               ) : (
                 jobs.map((job) => (
                   <button
                     key={job.id}
                     type="button"
                     onClick={() => setSelectedJobId(job.id)}
-                    className={`w-full rounded-lg border p-4 text-left transition ${
-                      selectedJobId === job.id ? 'border-blue-600 bg-blue-50' : 'border-slate-200 hover:border-slate-300'
+                    className={`w-full rounded-xl border p-4 text-left transition ${
+                      selectedJobId === job.id
+                        ? 'border-[#ef233c]/30 bg-[#ef233c]/10'
+                        : 'border-white/10 bg-black/20 hover:border-white/20'
                     }`}
                   >
-                    <p className="font-medium text-slate-900">{job.title}</p>
-                    <p className="mt-1 text-sm text-slate-600">{job.companyName || t('companyFallback')}</p>
-                    <p className="mt-2 text-xs text-slate-500">{job.candidates.length} {t('candidatesCount')}</p>
+                    <p className="font-medium text-white">{job.title}</p>
+                    <p className="mt-1 text-sm text-zinc-400">{job.companyName || t('companyFallback')}</p>
+                    <p className="mt-2 text-xs text-zinc-500">{job.candidates.length} {t('candidatesCount')}</p>
                   </button>
                 ))
               )}
@@ -288,16 +275,16 @@ export default function RecruitingPage() {
         <div className="space-y-6">
           {selectedJob ? (
             <>
-              <section className="rounded-xl border border-slate-200 bg-white p-5">
-                <h2 className="text-lg font-semibold text-slate-900">{selectedJob.title}</h2>
-                <p className="mt-1 text-sm text-slate-600">{selectedJob.companyName || t('companyFallback')}</p>
+              <section className="dashboard-card">
+                <h2 className="text-lg font-semibold text-white">{selectedJob.title}</h2>
+                <p className="mt-1 text-sm text-zinc-400">{selectedJob.companyName || t('companyFallback')}</p>
                 <div className="mt-4 grid gap-4 md:grid-cols-2">
                   <InfoCard label={t('fields.seniority')} value={selectedJob.seniority} />
                   <InfoCard label={t('fields.location')} value={selectedJob.location || '-'} />
                   <InfoCard label={t('fields.employmentType')} value={selectedJob.employmentType || '-'} />
                   <InfoCard label={t('fields.salaryRange')} value={selectedJob.salaryRange || '-'} />
                 </div>
-                <div className="mt-4 space-y-3 text-sm text-slate-700">
+                <div className="mt-4 space-y-3 text-sm text-zinc-300">
                   <Block label={t('fields.requiredSkills')} value={selectedJob.requiredSkills} />
                   <Block label={t('fields.niceToHaveSkills')} value={selectedJob.niceToHaveSkills || '-'} />
                   <Block label={t('fields.description')} value={selectedJob.description} />
@@ -305,8 +292,8 @@ export default function RecruitingPage() {
                 </div>
               </section>
 
-              <section className="rounded-xl border border-slate-200 bg-white p-5">
-                <h2 className="text-lg font-semibold text-slate-900">{t('addCandidate')}</h2>
+              <section className="dashboard-card">
+                <h2 className="text-lg font-semibold text-white">{t('addCandidate')}</h2>
                 <div className="mt-4 space-y-3">
                   <Input label={t('fields.candidateName')} value={candidateForm.name} onChange={(value) => setCandidateForm((prev) => ({ ...prev, name: value }))} />
                   <Input label={t('fields.candidateEmail')} value={candidateForm.email} onChange={(value) => setCandidateForm((prev) => ({ ...prev, email: value }))} />
@@ -317,31 +304,31 @@ export default function RecruitingPage() {
                     type="button"
                     onClick={handleCreateCandidate}
                     disabled={savingCandidate}
-                    className="w-full rounded-lg bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800 disabled:opacity-50"
+                    className="w-full rounded-full border border-white/10 bg-white/[0.04] px-4 py-3 text-sm font-medium text-white hover:bg-white/[0.08] disabled:opacity-50"
                   >
                     {savingCandidate ? t('saving') : t('actions.addCandidate')}
                   </button>
                 </div>
               </section>
 
-              <section className="rounded-xl border border-slate-200 bg-white p-5">
-                <h2 className="text-lg font-semibold text-slate-900">{t('candidates')}</h2>
+              <section className="dashboard-card">
+                <h2 className="text-lg font-semibold text-white">{t('candidates')}</h2>
                 <div className="mt-4 space-y-4">
                   {selectedJob.candidates.length === 0 ? (
-                    <p className="text-sm text-slate-500">{t('emptyCandidates')}</p>
+                    <p className="text-sm text-zinc-500">{t('emptyCandidates')}</p>
                   ) : (
                     selectedJob.candidates.map((candidate) => (
-                      <div key={candidate.id} className="rounded-xl border border-slate-200 p-4">
+                      <div key={candidate.id} className="dashboard-card-soft p-4">
                         <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
                           <div>
-                            <p className="font-medium text-slate-900">{candidate.name}</p>
-                            <p className="text-sm text-slate-500">{candidate.email || candidate.source || '-'}</p>
+                            <p className="font-medium text-white">{candidate.name}</p>
+                            <p className="text-sm text-zinc-500">{candidate.email || candidate.source || '-'}</p>
                           </div>
                           <button
                             type="button"
                             onClick={() => handleAnalyzeCandidate(candidate.id)}
                             disabled={actionId === candidate.id}
-                            className="rounded-lg border border-blue-200 bg-blue-50 px-3 py-2 text-sm font-medium text-blue-700 hover:bg-blue-100 disabled:opacity-50"
+                            className="rounded-full border border-sky-400/20 bg-sky-400/10 px-3 py-2 text-sm font-medium text-sky-300 hover:bg-sky-400/20 disabled:opacity-50"
                           >
                             {actionId === candidate.id ? t('analyzing') : t('actions.analyzeResume')}
                           </button>
@@ -354,7 +341,7 @@ export default function RecruitingPage() {
                         </div>
 
                         {candidate.screeningAnalysis && (
-                          <div className="mt-4 rounded-lg bg-slate-50 p-4 text-sm text-slate-700">
+                          <div className="mt-4 rounded-xl bg-black/20 p-4 text-sm text-zinc-300">
                             <Block label={t('screening.summary')} value={stringifyValue(candidate.screeningAnalysis.summary)} />
                             <Block label={t('screening.strengths')} value={stringifyValue(candidate.screeningAnalysis.strengths)} />
                             <Block label={t('screening.gaps')} value={stringifyValue(candidate.screeningAnalysis.gaps)} />
@@ -374,7 +361,7 @@ export default function RecruitingPage() {
                             type="button"
                             onClick={() => handleCreateInterview(candidate.id)}
                             disabled={actionId === candidate.id}
-                            className="rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-2 text-sm font-medium text-emerald-700 hover:bg-emerald-100 disabled:opacity-50"
+                            className="rounded-full border border-emerald-400/20 bg-emerald-400/10 px-3 py-2 text-sm font-medium text-emerald-300 hover:bg-emerald-400/20 disabled:opacity-50"
                           >
                             {actionId === candidate.id ? t('analyzing') : t('actions.analyzeInterview')}
                           </button>
@@ -383,13 +370,13 @@ export default function RecruitingPage() {
                         {candidate.interviews.length > 0 && (
                           <div className="mt-4 space-y-3">
                             {candidate.interviews.map((interview) => (
-                              <div key={interview.id} className="rounded-lg border border-slate-200 p-4">
+                              <div key={interview.id} className="rounded-xl border border-white/10 bg-black/20 p-4">
                                 <div className="grid gap-3 md:grid-cols-2">
                                   <InfoCard label={t('interview.score')} value={interview.finalScore?.toString() || '-'} />
                                   <InfoCard label={t('interview.recommendation')} value={interview.finalRecommendation || '-'} />
                                 </div>
                                 {interview.analysis && (
-                                  <div className="mt-3 rounded-lg bg-slate-50 p-4 text-sm text-slate-700">
+                                  <div className="mt-3 rounded-xl bg-black/20 p-4 text-sm text-zinc-300">
                                     <Block label={t('interview.summary')} value={stringifyValue(interview.analysis.summary)} />
                                     <Block label={t('interview.evidence')} value={stringifyValue(interview.analysis.evidence)} />
                                     <Block label={t('interview.concerns')} value={stringifyValue(interview.analysis.concerns)} />
@@ -408,9 +395,7 @@ export default function RecruitingPage() {
               </section>
             </>
           ) : (
-            <div className="rounded-xl border border-slate-200 bg-white p-8 text-sm text-slate-500">
-              {t('emptySelection')}
-            </div>
+            <div className="dashboard-card p-8 text-sm text-zinc-500">{t('emptySelection')}</div>
           )}
         </div>
       </div>
@@ -418,23 +403,11 @@ export default function RecruitingPage() {
   )
 }
 
-function Input({
-  label,
-  value,
-  onChange,
-}: {
-  label: string
-  value: string
-  onChange: (value: string) => void
-}) {
+function Input({ label, value, onChange }: { label: string; value: string; onChange: (value: string) => void }) {
   return (
     <label className="block space-y-2 text-sm">
-      <span className="font-medium text-slate-700">{label}</span>
-      <input
-        value={value}
-        onChange={(event) => onChange(event.target.value)}
-        className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-      />
+      <span className="font-medium text-zinc-300">{label}</span>
+      <input value={value} onChange={(event) => onChange(event.target.value)} className="dashboard-input" />
     </label>
   )
 }
@@ -452,22 +425,17 @@ function Textarea({
 }) {
   return (
     <label className="block space-y-2 text-sm">
-      <span className="font-medium text-slate-700">{label}</span>
-      <textarea
-        value={value}
-        rows={rows}
-        onChange={(event) => onChange(event.target.value)}
-        className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-      />
+      <span className="font-medium text-zinc-300">{label}</span>
+      <textarea value={value} rows={rows} onChange={(event) => onChange(event.target.value)} className="dashboard-input min-h-[120px]" />
     </label>
   )
 }
 
 function InfoCard({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-lg border border-slate-200 bg-slate-50 p-3">
-      <p className="text-xs uppercase tracking-wide text-slate-500">{label}</p>
-      <p className="mt-1 text-sm font-medium text-slate-900">{value}</p>
+    <div className="rounded-xl border border-white/10 bg-black/20 p-3">
+      <p className="text-xs uppercase tracking-wide text-zinc-500">{label}</p>
+      <p className="mt-1 text-sm font-medium text-white">{value}</p>
     </div>
   )
 }
@@ -475,24 +443,15 @@ function InfoCard({ label, value }: { label: string; value: string }) {
 function Block({ label, value }: { label: string; value: string }) {
   return (
     <div>
-      <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">{label}</p>
+      <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500">{label}</p>
       <p className="mt-1 whitespace-pre-wrap">{value}</p>
     </div>
   )
 }
 
 function stringifyValue(value: unknown): string {
-  if (Array.isArray(value)) {
-    return value.map((item) => `- ${String(item)}`).join('\n')
-  }
-
-  if (typeof value === 'string') {
-    return value
-  }
-
-  if (value && typeof value === 'object') {
-    return JSON.stringify(value, null, 2)
-  }
-
+  if (Array.isArray(value)) return value.map((item) => `- ${String(item)}`).join('\n')
+  if (typeof value === 'string') return value
+  if (value && typeof value === 'object') return JSON.stringify(value, null, 2)
   return value == null ? '-' : String(value)
 }

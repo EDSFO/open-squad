@@ -54,24 +54,24 @@ export default function DashboardPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-slate-900">{t('welcome')}</h1>
-        <p className="mt-1 text-sm text-slate-600">{t('subtitle')}</p>
+        <h1 className="dashboard-title">{t('welcome')}</h1>
+        <p className="dashboard-subtitle">{t('subtitle')}</p>
       </div>
 
       <div className="grid gap-6 md:grid-cols-3">
-        <div className="rounded-lg border border-slate-200 bg-white p-6">
-          <h3 className="text-sm font-medium text-slate-500">Squads Ativos</h3>
-          <p className="mt-2 text-3xl font-bold text-slate-900">{stats.activeSquads}</p>
-        </div>
-        <div className="rounded-lg border border-slate-200 bg-white p-6">
-          <h3 className="text-sm font-medium text-slate-500">Execuções</h3>
-          <p className="mt-2 text-3xl font-bold text-slate-900">{stats.executions}</p>
-        </div>
-        <div className="rounded-lg border border-slate-200 bg-white p-6">
-          <h3 className="text-sm font-medium text-slate-500">Plano</h3>
-          <p className="mt-2 text-3xl font-bold text-slate-900">{formatPlan(stats.plan, locale)}</p>
-        </div>
+        <StatCard label="Squads ativos" value={String(stats.activeSquads)} />
+        <StatCard label="Execucoes" value={String(stats.executions)} />
+        <StatCard label="Plano" value={formatPlan(stats.plan, locale)} />
       </div>
+    </div>
+  )
+}
+
+function StatCard({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="dashboard-card">
+      <p className="text-xs font-medium uppercase tracking-[0.22em] text-zinc-500">{label}</p>
+      <p className="mt-3 text-4xl font-semibold text-white">{value}</p>
     </div>
   )
 }

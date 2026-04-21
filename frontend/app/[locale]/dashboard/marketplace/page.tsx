@@ -1,7 +1,7 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import { useTranslations, useLocale } from 'next-intl'
+import { useEffect, useState } from 'react'
+import { useLocale, useTranslations } from 'next-intl'
 import { Loader2 } from 'lucide-react'
 import { SquadCard } from '@/components/dashboard/SquadCard'
 import { SquadFilter } from '@/components/dashboard/SquadFilter'
@@ -39,7 +39,7 @@ export default function MarketplacePage() {
   const [buyingId, setBuyingId] = useState<string | null>(null)
 
   useEffect(() => {
-    fetchSquads()
+    void fetchSquads()
   }, [locale])
 
   const fetchSquads = async () => {
@@ -115,7 +115,6 @@ export default function MarketplacePage() {
         return
       }
 
-      // Redirect to Stripe Checkout
       window.location.href = data.url
     } catch (err) {
       alert(err instanceof Error ? err.message : 'An error occurred')
@@ -125,46 +124,33 @@ export default function MarketplacePage() {
 
   const filteredSquads = selectedCategory === 'all'
     ? squads
-    : squads.filter(squad => squad.category === selectedCategory)
+    : squads.filter((squad) => squad.category === selectedCategory)
 
   return (
     <div className="space-y-6">
-      {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-slate-900">{t('title')}</h1>
-        <p className="mt-1 text-sm text-slate-600">
-          {t('subtitle')}
-        </p>
+        <h1 className="dashboard-title">{t('title')}</h1>
+        <p className="dashboard-subtitle">{t('subtitle')}</p>
       </div>
 
-      {/* Filter */}
-      <SquadFilter
-        selectedCategory={selectedCategory}
-        onCategoryChange={setSelectedCategory}
-      />
+      <SquadFilter selectedCategory={selectedCategory} onCategoryChange={setSelectedCategory} />
 
-      {/* Loading state */}
       {isLoading && (
         <div className="flex items-center justify-center py-12">
-          <Loader2 className="h-8 w-8 animate-spin text-blue-600" />
+          <Loader2 className="h-8 w-8 animate-spin text-[#ef233c]" />
         </div>
       )}
 
-      {/* Error state */}
       {error && !isLoading && (
-        <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-red-700">
-          {error}
-        </div>
+        <div className="rounded-xl border border-red-500/20 bg-red-500/10 p-4 text-red-300">{error}</div>
       )}
 
-      {/* Empty state */}
       {!isLoading && !error && filteredSquads.length === 0 && (
-        <div className="rounded-lg border border-slate-200 bg-white p-12 text-center">
-          <p className="text-slate-600">{t('empty')}</p>
+        <div className="dashboard-card p-12 text-center">
+          <p className="text-zinc-400">{t('empty')}</p>
         </div>
       )}
 
-      {/* Squads grid */}
       {!isLoading && !error && filteredSquads.length > 0 && (
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {filteredSquads.map((squad) => (

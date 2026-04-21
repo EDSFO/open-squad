@@ -1,44 +1,52 @@
-import { getTranslations } from 'next-intl/server'
+import { getLocale, getTranslations } from 'next-intl/server'
 import { Check } from 'lucide-react'
 
 export default async function Pricing() {
+  const locale = await getLocale()
   const t = await getTranslations('pricing')
+  const isPortuguese = locale === 'pt-BR'
 
   return (
-    <section className="py-20 bg-slate-900 text-white">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            {t('title')}
-          </h2>
-          <p className="text-lg text-slate-400 max-w-2xl mx-auto mb-2">
-            {t('subtitle')}
-          </p>
-          <p className="text-slate-500 max-w-2xl mx-auto">
-            {t('description')}
-          </p>
+    <section id="pricing" className="py-20 md:py-28">
+      <div className="section-shell">
+        <div className="mb-14">
+          <span className="eyebrow">Pricing</span>
+          <h2 className="section-title mt-5">{t('title')}</h2>
+          <p className="section-copy mt-4">{t('description')}</p>
         </div>
 
-        <div className="max-w-md mx-auto">
-          <div className="bg-slate-800 rounded-2xl p-8 border border-slate-700">
-            <div className="text-center mb-8">
-              <h3 className="text-xl font-semibold mb-2">{t('plan.name')}</h3>
-              <div className="flex items-baseline justify-center">
-                <span className="text-4xl font-bold text-white">R$ 39</span>
-                <span className="text-slate-400 ml-1">{t('perMonth')}</span>
-              </div>
+        <div className="grid gap-5 lg:grid-cols-[0.8fr_1.2fr]">
+          <div className="panel p-8">
+            <p className="text-xs uppercase tracking-[0.32em] text-zinc-500">{t('subtitle')}</p>
+            <div className="mt-6 flex items-end gap-3">
+              <span className="text-6xl font-semibold text-white">R$ 39</span>
+              <span className="pb-2 text-zinc-500">{t('perMonth')}</span>
+            </div>
+            <p className="mt-6 text-sm leading-7 text-zinc-400">
+              {isPortuguese
+                ? `${t('plan.name')} para operar seus squads com controle, checkpoint e biblioteca centralizada.`
+                : `${t('plan.name')} to run your squads with approval control, checkpoints, and a centralized library.`}
+            </p>
+          </div>
+
+          <div className="panel p-8">
+            <div className="mb-8 flex items-center justify-between">
+              <h3 className="text-2xl font-semibold text-white">{t('plan.name')}</h3>
+              <span className="rounded-full border border-[#ef233c]/30 bg-[#ef233c]/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.24em] text-[#ff758f]">
+                {t('popular')}
+              </span>
             </div>
 
-            <ul className="space-y-4 mb-8">
+            <ul className="grid gap-4 md:grid-cols-2">
               {t.raw('plan.features').map((feature: string, index: number) => (
-                <li key={index} className="flex items-center gap-3">
-                  <Check className="w-5 h-5 text-green-400 flex-shrink-0" />
-                  <span className="text-slate-300">{feature}</span>
+                <li key={index} className="panel-soft flex items-center gap-3 px-4 py-4">
+                  <Check className="h-5 w-5 flex-shrink-0 text-emerald-400" />
+                  <span className="text-zinc-200">{feature}</span>
                 </li>
               ))}
             </ul>
 
-            <button className="w-full py-3 px-6 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors">
+            <button className="mt-8 w-full rounded-full border border-[#ef233c] bg-[#ef233c] px-6 py-3 font-semibold text-white transition-all hover:-translate-y-0.5 hover:bg-[#d90429]">
               {t('plan.cta')}
             </button>
           </div>

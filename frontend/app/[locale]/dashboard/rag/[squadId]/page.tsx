@@ -29,14 +29,10 @@ export default function RagManagementPage() {
       try {
         const token = localStorage.getItem('token')
         const response = await fetch(`${BACKEND_URL}/squads/${squadId}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         })
 
-        if (!response.ok) {
-          throw new Error('Failed to load squad')
-        }
+        if (!response.ok) throw new Error('Failed to load squad')
 
         const data = await response.json()
         setSquad(data.squad)
@@ -51,20 +47,17 @@ export default function RagManagementPage() {
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-4">
-        <button
-          onClick={() => router.back()}
-          className="rounded-lg p-2 hover:bg-slate-100"
-        >
-          <ArrowLeft className="h-5 w-5 text-slate-600" />
+        <button onClick={() => router.back()} className="rounded-xl border border-white/10 bg-white/5 p-2 hover:bg-white/10">
+          <ArrowLeft className="h-5 w-5 text-zinc-300" />
         </button>
         <div>
-          <h1 className="text-2xl font-bold text-slate-900">Gerenciar RAG</h1>
-          <p className="text-sm text-slate-600">{squad?.localization?.name || squadId}</p>
+          <h1 className="dashboard-title">Gerenciar RAG</h1>
+          <p className="dashboard-subtitle">{squad?.localization?.name || squadId}</p>
         </div>
       </div>
 
       {error && (
-        <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-700">
+        <div className="rounded-xl border border-red-500/20 bg-red-500/10 p-4 text-sm text-red-300">
           {error}
         </div>
       )}

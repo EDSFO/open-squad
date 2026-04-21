@@ -1,8 +1,8 @@
 'use client'
 
 import { useTranslations } from 'next-intl'
+import { Database, Loader2, Pause, Play, Zap } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { Loader2, Play, Pause, Database, Zap } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 interface UserSquad {
@@ -43,19 +43,19 @@ export function UserSquadList({
   if (isLoading) {
     return (
       <div className="flex items-center justify-center py-12">
-        <Loader2 className="h-8 w-8 animate-spin text-blue-600" />
+        <Loader2 className="h-8 w-8 animate-spin text-[#ef233c]" />
       </div>
     )
   }
 
   if (squads.length === 0) {
     return (
-      <div className="rounded-lg border border-slate-200 bg-white p-12 text-center">
-        <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-slate-100">
-          <Zap className="h-8 w-8 text-slate-400" />
+      <div className="dashboard-card p-12 text-center">
+        <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full border border-white/10 bg-white/[0.04]">
+          <Zap className="h-8 w-8 text-zinc-500" />
         </div>
-        <h3 className="text-lg font-medium text-slate-900">{t('empty')}</h3>
-        <p className="mt-2 text-sm text-slate-500">{t('emptySubtitle')}</p>
+        <h3 className="text-lg font-medium text-white">{t('empty')}</h3>
+        <p className="mt-2 text-sm text-zinc-400">{t('emptySubtitle')}</p>
       </div>
     )
   }
@@ -71,57 +71,52 @@ export function UserSquadList({
           <div
             key={squad.id}
             className={cn(
-              'rounded-lg border bg-white p-6 shadow-sm transition-shadow hover:shadow-md',
-              squad.isActive ? 'border-green-200' : 'border-slate-200'
+              'dashboard-card transition-transform duration-300 hover:-translate-y-0.5',
+              squad.isActive ? 'border-emerald-400/20' : 'border-white/10'
             )}
           >
             <div className="flex items-start justify-between gap-4">
-              {/* Squad info */}
               <div className="flex-1">
                 <div className="flex items-center gap-3">
-                  <h3 className="text-lg font-semibold text-slate-900">{squad.name}</h3>
+                  <h3 className="text-lg font-semibold text-white">{squad.name}</h3>
                   <span
                     className={cn(
-                      'inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium',
+                      'rounded-full px-2.5 py-1 text-xs font-medium',
                       squad.isActive
-                        ? 'bg-green-100 text-green-800'
-                        : 'bg-slate-100 text-slate-600'
+                        ? 'border border-emerald-400/20 bg-emerald-400/10 text-emerald-300'
+                        : 'border border-white/10 bg-white/[0.04] text-zinc-400'
                     )}
                   >
                     {squad.isActive ? t('active') : t('inactive')}
                   </span>
                 </div>
-                <p className="mt-1 text-sm text-slate-600 line-clamp-2">{squad.description}</p>
-                <p className="mt-2 text-xs text-slate-400 capitalize">{squad.category}</p>
+                <p className="mt-2 line-clamp-2 text-sm text-zinc-400">{squad.description}</p>
+                <p className="mt-3 text-xs uppercase tracking-[0.2em] text-zinc-500">{squad.category}</p>
               </div>
 
-              {/* Actions */}
               <div className="flex flex-col gap-2">
                 <Button
                   onClick={() => onManageRag?.(squad.slug)}
                   disabled={isManagingRag}
                   variant="outline"
-                  className="min-w-[120px]"
+                  className="min-w-[140px]"
                 >
                   {isManagingRag ? (
                     <Loader2 className="h-4 w-4 animate-spin" />
                   ) : (
                     <>
                       <Database className="mr-2 h-4 w-4" />
-                      {'Gerenciar RAG'}
+                      Gerenciar RAG
                     </>
                   )}
                 </Button>
 
-                {/* Execute button */}
                 <Button
                   onClick={() => onExecute?.(squad.slug)}
                   disabled={isExecuting || !squad.isActive}
                   className={cn(
-                    'min-w-[120px]',
-                    squad.isActive
-                      ? 'bg-blue-600 hover:bg-blue-700'
-                      : 'bg-slate-300 hover:bg-slate-300 cursor-not-allowed'
+                    'min-w-[140px]',
+                    !squad.isActive && 'border-white/10 bg-zinc-800 text-zinc-500 hover:translate-y-0 hover:bg-zinc-800'
                   )}
                 >
                   {isExecuting ? (
@@ -134,12 +129,11 @@ export function UserSquadList({
                   )}
                 </Button>
 
-                {/* Activate/Deactivate toggle */}
                 <Button
                   onClick={() => onToggleActive?.(squad.id, !squad.isActive)}
                   disabled={isToggling}
-                  variant="outline"
-                  className="min-w-[120px]"
+                  variant="secondary"
+                  className="min-w-[140px]"
                 >
                   {isToggling ? (
                     <Loader2 className="h-4 w-4 animate-spin" />

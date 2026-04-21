@@ -25,10 +25,10 @@ export function SquadFilter({ selectedCategory, onCategoryChange }: SquadFilterP
           key={category.key}
           onClick={() => onCategoryChange(category.key)}
           className={cn(
-            'rounded-lg px-4 py-2 text-sm font-medium transition-colors',
+            'rounded-full border px-4 py-2 text-sm font-medium transition-colors',
             selectedCategory === category.key
-              ? 'bg-blue-600 text-white'
-              : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+              ? 'border-[#ef233c]/20 bg-[#ef233c]/12 text-white'
+              : 'border-white/10 bg-white/[0.04] text-zinc-400 hover:border-white/20 hover:bg-white/[0.08] hover:text-white'
           )}
         >
           {t(category.labelKey)}

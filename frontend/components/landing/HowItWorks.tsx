@@ -1,5 +1,5 @@
 import { getTranslations } from 'next-intl/server'
-import { UserPlus, Users, Rocket } from 'lucide-react'
+import { Rocket, UserPlus, Users } from 'lucide-react'
 
 export default async function HowItWorks() {
   const t = await getTranslations('howItWorks')
@@ -23,35 +23,28 @@ export default async function HowItWorks() {
   ]
 
   return (
-    <section className="py-20 bg-slate-50">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
-            {t('title')}
-          </h2>
-          <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-            {t('subtitle')}
-          </p>
+    <section id="workflow" className="py-20 md:py-28">
+      <div className="section-shell">
+        <div className="mb-14">
+          <span className="eyebrow">Workflow</span>
+          <h2 className="section-title mt-5">{t('title')}</h2>
+          <p className="section-copy mt-4">{t('subtitle')}</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+        <div className="grid grid-cols-1 gap-5 lg:grid-cols-3">
           {steps.map((step, index) => (
-            <div key={index} className="relative text-center">
-              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-blue-600 text-white mb-6">
-                <step.icon className="w-8 h-8" />
+            <div key={step.title} className="panel relative p-7">
+              <div className="mb-10 flex items-center justify-between">
+                <div className="inline-flex h-14 w-14 items-center justify-center rounded-2xl border border-white/10 bg-[#ef233c]/10 text-[#ef233c]">
+                  <step.icon className="h-7 w-7" />
+                </div>
+                <div className="text-right">
+                  <p className="text-xs uppercase tracking-[0.3em] text-zinc-500">Step</p>
+                  <p className="text-3xl font-semibold text-white">0{index + 1}</p>
+                </div>
               </div>
-              {index < steps.length - 1 && (
-                <div className="hidden md:block absolute top-8 left-[60%] w-[80%] h-[2px] bg-slate-300" />
-              )}
-              <h3 className="text-xl font-semibold text-slate-900 mb-2">
-                {step.title}
-              </h3>
-              <p className="text-slate-600">
-                {step.description}
-              </p>
-              <div className="mt-4 inline-flex items-center justify-center w-8 h-8 rounded-full bg-slate-200 text-slate-600 font-semibold text-sm">
-                {index + 1}
-              </div>
+              <h3 className="mb-3 text-2xl font-semibold text-white">{step.title}</h3>
+              <p className="leading-7 text-zinc-400">{step.description}</p>
             </div>
           ))}
         </div>

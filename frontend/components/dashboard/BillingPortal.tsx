@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { useTranslations } from 'next-intl'
-import { Loader2, ExternalLink, CreditCard } from 'lucide-react'
+import { CreditCard, ExternalLink, Loader2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3001'
@@ -39,7 +39,6 @@ export function BillingPortal({ hasSubscription = false }: BillingPortalProps) {
         throw new Error(data.error || 'Failed to create portal session')
       }
 
-      // Redirect to Stripe Customer Portal
       window.location.href = data.url
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred')
@@ -48,34 +47,30 @@ export function BillingPortal({ hasSubscription = false }: BillingPortalProps) {
   }
 
   return (
-    <div className="bg-white rounded-lg border border-slate-200 shadow-sm p-6">
-      <div className="flex items-center gap-3 mb-4">
-        <div className="p-2 bg-blue-100 rounded-lg">
-          <CreditCard className="h-5 w-5 text-blue-600" />
+    <div className="dashboard-card">
+      <div className="mb-4 flex items-center gap-3">
+        <div className="rounded-2xl border border-white/10 bg-[#ef233c]/12 p-3">
+          <CreditCard className="h-5 w-5 text-[#ff758f]" />
         </div>
-        <h2 className="text-lg font-semibold text-slate-900">{t('title')}</h2>
+        <h2 className="text-lg font-semibold text-white">{t('title')}</h2>
       </div>
 
-      <p className="text-sm text-slate-600 mb-4">
+      <p className="mb-4 text-sm text-zinc-400">
         {hasSubscription ? t('description.manage') : t('description.noSubscription')}
       </p>
 
       {error && (
-        <div className="mb-4 text-sm text-red-600 bg-red-50 border border-red-200 rounded-md px-3 py-2">
+        <div className="mb-4 rounded-xl border border-red-500/20 bg-red-500/10 px-3 py-2 text-sm text-red-300">
           {error}
         </div>
       )}
 
-      <Button
-        onClick={handleOpenPortal}
-        disabled={isLoading}
-        className="bg-blue-600 hover:bg-blue-700"
-      >
+      <Button onClick={handleOpenPortal} disabled={isLoading}>
         {isLoading ? (
           <Loader2 className="h-4 w-4 animate-spin" />
         ) : (
           <>
-            <ExternalLink className="h-4 w-4 mr-2" />
+            <ExternalLink className="mr-2 h-4 w-4" />
             {hasSubscription ? t('manageSubscription') : t('openPortal')}
           </>
         )}

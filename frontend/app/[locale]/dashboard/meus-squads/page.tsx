@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useTranslations } from 'next-intl'
 import { usePathname, useRouter } from 'next/navigation'
 import { Loader2 } from 'lucide-react'
@@ -44,7 +44,7 @@ export default function MeusSquadsPage() {
   const [togglingId, setTogglingId] = useState<string | null>(null)
 
   useEffect(() => {
-    fetchUserSquads()
+    void fetchUserSquads()
   }, [])
 
   const fetchUserSquads = async () => {
@@ -109,27 +109,21 @@ export default function MeusSquadsPage() {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-slate-900">{t('title')}</h1>
-        <p className="mt-1 text-sm text-slate-600">{t('subtitle')}</p>
+        <h1 className="dashboard-title">{t('title')}</h1>
+        <p className="dashboard-subtitle">{t('subtitle')}</p>
       </div>
 
-      {/* Loading state */}
       {isLoading && (
         <div className="flex items-center justify-center py-12">
-          <Loader2 className="h-8 w-8 animate-spin text-blue-600" />
+          <Loader2 className="h-8 w-8 animate-spin text-[#ef233c]" />
         </div>
       )}
 
-      {/* Error state */}
       {error && !isLoading && (
-        <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-red-700">
-          {error}
-        </div>
+        <div className="rounded-xl border border-red-500/20 bg-red-500/10 p-4 text-red-300">{error}</div>
       )}
 
-      {/* Squads list */}
       {!isLoading && !error && (
         <UserSquadList
           squads={squads}

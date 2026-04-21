@@ -1,10 +1,9 @@
 'use client'
 
+import { useEffect, useRef, useState } from 'react'
 import { useTranslations } from 'next-intl'
-import { useRouter, usePathname } from 'next/navigation'
-import { useState, useRef, useEffect } from 'react'
-import { User, ChevronDown, LogOut, Globe } from 'lucide-react'
-import { Button } from '@/components/ui/button'
+import { usePathname, useRouter } from 'next/navigation'
+import { ChevronDown, Globe, LogOut, User } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 interface HeaderProps {
@@ -20,7 +19,6 @@ export function Header({ userName = 'User' }: HeaderProps) {
   const userMenuRef = useRef<HTMLDivElement>(null)
   const localeMenuRef = useRef<HTMLDivElement>(null)
 
-  // Close menus when clicking outside
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (userMenuRef.current && !userMenuRef.current.contains(event.target as Node)) {
@@ -30,6 +28,7 @@ export function Header({ userName = 'User' }: HeaderProps) {
         setLocaleMenuOpen(false)
       }
     }
+
     document.addEventListener('mousedown', handleClickOutside)
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
@@ -37,7 +36,6 @@ export function Header({ userName = 'User' }: HeaderProps) {
   const currentLocale = pathname.startsWith('/pt-BR') ? 'pt-BR' : 'en-US'
 
   const handleLocaleSwitch = (locale: string) => {
-    // Replace current locale in pathname with new locale
     const newPathname = pathname.replace(/^\/(pt-BR|en-US)/, `/${locale}`)
     router.push(newPathname)
     setLocaleMenuOpen(false)
@@ -49,17 +47,17 @@ export function Header({ userName = 'User' }: HeaderProps) {
   }
 
   return (
-    <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-slate-200 bg-white px-6">
-      {/* Left side - could add breadcrumb or page title here */}
-      <div />
+    <header className="sticky top-0 z-30 flex h-16 w-full items-center justify-between bg-transparent px-0">
+      <div>
+        <p className="text-xs uppercase tracking-[0.28em] text-zinc-500">Workspace</p>
+        <p className="text-sm font-medium text-white">Opensquad Control Center</p>
+      </div>
 
-      {/* Right side - user menu and locale switcher */}
       <div className="flex items-center gap-4">
-        {/* Locale Switcher */}
         <div className="relative" ref={localeMenuRef}>
           <button
             onClick={() => setLocaleMenuOpen(!localeMenuOpen)}
-            className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-slate-900"
+            className="flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-medium text-zinc-300 hover:bg-white/10 hover:text-white"
           >
             <Globe className="h-4 w-4" />
             {currentLocale === 'pt-BR' ? 'PT-BR' : 'EN-US'}
@@ -67,21 +65,21 @@ export function Header({ userName = 'User' }: HeaderProps) {
           </button>
 
           {localeMenuOpen && (
-            <div className="absolute right-0 mt-2 w-40 rounded-lg border border-slate-200 bg-white py-1 shadow-lg">
+            <div className="absolute right-0 mt-2 w-40 rounded-2xl border border-white/10 bg-zinc-950 py-2 shadow-2xl">
               <button
                 onClick={() => handleLocaleSwitch('pt-BR')}
                 className={cn(
-                  'flex w-full items-center px-4 py-2 text-sm hover:bg-slate-100',
-                  currentLocale === 'pt-BR' ? 'text-blue-600 font-medium' : 'text-slate-600'
+                  'flex w-full items-center px-4 py-2 text-sm hover:bg-white/5',
+                  currentLocale === 'pt-BR' ? 'font-medium text-[#ff758f]' : 'text-zinc-400'
                 )}
               >
-                Português (BR)
+                Portugues (BR)
               </button>
               <button
                 onClick={() => handleLocaleSwitch('en-US')}
                 className={cn(
-                  'flex w-full items-center px-4 py-2 text-sm hover:bg-slate-100',
-                  currentLocale === 'en-US' ? 'text-blue-600 font-medium' : 'text-slate-600'
+                  'flex w-full items-center px-4 py-2 text-sm hover:bg-white/5',
+                  currentLocale === 'en-US' ? 'font-medium text-[#ff758f]' : 'text-zinc-400'
                 )}
               >
                 English (US)
@@ -90,25 +88,23 @@ export function Header({ userName = 'User' }: HeaderProps) {
           )}
         </div>
 
-        {/* User Menu */}
         <div className="relative" ref={userMenuRef}>
           <button
             onClick={() => setUserMenuOpen(!userMenuOpen)}
-            className="flex items-center gap-2 rounded-lg px-3 py-2 hover:bg-slate-100"
+            className="flex items-center gap-3 rounded-full border border-white/10 bg-white/5 px-3 py-2 hover:bg-white/10"
           >
-            {/* Avatar placeholder */}
-            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-200">
-              <User className="h-4 w-4 text-slate-500" />
+            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#ef233c]/12">
+              <User className="h-4 w-4 text-[#ff758f]" />
             </div>
-            <span className="text-sm font-medium text-slate-700">{userName}</span>
-            <ChevronDown className="h-4 w-4 text-slate-400" />
+            <span className="text-sm font-medium text-white">{userName}</span>
+            <ChevronDown className="h-4 w-4 text-zinc-500" />
           </button>
 
           {userMenuOpen && (
-            <div className="absolute right-0 mt-2 w-48 rounded-lg border border-slate-200 bg-white py-1 shadow-lg">
+            <div className="absolute right-0 mt-2 w-48 rounded-2xl border border-white/10 bg-zinc-950 py-2 shadow-2xl">
               <button
                 onClick={handleLogout}
-                className="flex w-full items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-red-50"
+                className="flex w-full items-center gap-2 px-4 py-2 text-sm text-red-400 hover:bg-red-500/10"
               >
                 <LogOut className="h-4 w-4" />
                 {t('nav.logout')}
