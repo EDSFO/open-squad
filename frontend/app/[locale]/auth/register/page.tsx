@@ -5,10 +5,10 @@ import { useLocale, useTranslations } from 'next-intl'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import { AuthCard } from '@/components/auth/AuthCard'
 import { Button } from '@/components/ui/button'
-import { Input, Label, FormField, Form } from '@/components/ui/form-components'
+import { Input, FormField, Form } from '@/components/ui/form-components'
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3001'
 
@@ -69,83 +69,75 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-slate-50 to-white px-4">
-      <div className="w-full max-w-md space-y-8">
-        <div className="text-center">
-          <h1 className="text-3xl font-bold text-slate-900">{t('title')}</h1>
-        </div>
+    <AuthCard
+      title={t('title')}
+      footerText={t('hasAccount')}
+      footerHref={`/${locale}/auth/login`}
+      footerLink={t('link')}
+    >
+      <Form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+        <FormField
+          name="name"
+          label={t('name')}
+          error={errors.name?.message}
+        >
+          <Input
+            type="text"
+            placeholder="John Doe"
+            {...register('name')}
+            error={!!errors.name}
+          />
+        </FormField>
 
-        <div className="bg-white rounded-lg border border-slate-200 shadow-sm p-6 space-y-6">
-          <Form onSubmit={handleSubmit(onSubmit)}>
-            <FormField
-              name="name"
-              label={t('name')}
-              error={errors.name?.message}
-            >
-              <Input
-                type="text"
-                placeholder="John Doe"
-                {...register('name')}
-                error={!!errors.name}
-              />
-            </FormField>
+        <FormField
+          name="email"
+          label={t('email')}
+          error={errors.email?.message}
+        >
+          <Input
+            type="email"
+            placeholder="email@example.com"
+            {...register('email')}
+            error={!!errors.email}
+          />
+        </FormField>
 
-            <FormField
-              name="email"
-              label={t('email')}
-              error={errors.email?.message || error || undefined}
-            >
-              <Input
-                type="email"
-                placeholder="email@example.com"
-                {...register('email')}
-                error={!!errors.email || !!error}
-              />
-            </FormField>
+        <FormField
+          name="password"
+          label={t('password')}
+          error={errors.password?.message}
+        >
+          <Input
+            type="password"
+            placeholder="********"
+            {...register('password')}
+            error={!!errors.password}
+          />
+        </FormField>
 
-            <FormField
-              name="password"
-              label={t('password')}
-              error={errors.password?.message}
-            >
-              <Input
-                type="password"
-                placeholder="********"
-                {...register('password')}
-                error={!!errors.password}
-              />
-            </FormField>
+        <FormField
+          name="confirmPassword"
+          label={t('confirmPassword')}
+          error={errors.confirmPassword?.message}
+        >
+          <Input
+            type="password"
+            placeholder="********"
+            {...register('confirmPassword')}
+            error={!!errors.confirmPassword}
+          />
+        </FormField>
 
-            <FormField
-              name="confirmPassword"
-              label={t('confirmPassword')}
-              error={errors.confirmPassword?.message}
-            >
-              <Input
-                type="password"
-                placeholder="********"
-                {...register('confirmPassword')}
-                error={!!errors.confirmPassword}
-              />
-            </FormField>
+        {error && (
+          <div className="rounded-xl border border-red-500/20 bg-red-500/10 px-3 py-2 text-sm text-red-200">
+            {error}
+          </div>
+        )}
 
-            <Button
-              type="submit"
-              className="w-full bg-blue-600 hover:bg-blue-700"
-              disabled={isLoading}
-            >
-              {isLoading ? '...' : t('submit')}
-            </Button>
-          </Form>
-
-          <p className="text-center text-sm text-slate-600">
-            {t('hasAccount')}{' '}
-            <Link href={`/${locale}/auth/login`} className="text-blue-600 hover:underline">
-              {t('link')}
-            </Link>
-          </p>
-        </div>
-      </div>
-    </div>
+        <Button type="submit" className="w-full" disabled={isLoading}>
+          {isLoading ? '...' : t('submit')}
+        </Button>
+      </Form>
+    </AuthCard>
   )
 }
